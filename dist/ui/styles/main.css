@@ -35,24 +35,6 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-#controls-bar #sort-controls {
-  flex: 1 1 0;
-}
-#controls-bar #sort-controls label {
-  color: #8a94a6;
-  font-size: 1rem;
-  margin-right: 0.5em;
-  font-weight: 700;
-}
-#controls-bar #sort-controls #sort-select {
-  font-size: 1rem;
-  color: #4a7cff;
-  font-weight: 700;
-  transition: border 0.2s;
-}
-#controls-bar #sort-controls #sort-select:focus {
-  border: 0.12em solid #4a7cff;
-}
 
 h1,
 h2,
@@ -106,25 +88,6 @@ h5 {
   padding: 2em 1.5em;
   gap: 1.2em;
 }
-.document-list.grid .document-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #232834;
-  margin-bottom: 0.1rem;
-}
-.document-list.grid .document-name span {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #8a94a6;
-  display: block;
-  margin-top: 0.1rem;
-}
-.document-list.grid .document-contributors,
-.document-list.grid .document-attachments,
-.document-list.grid .document-version {
-  color: #232834;
-  font-size: 1rem;
-}
 .document-list.list {
   display: flex;
   flex-direction: column;
@@ -140,29 +103,29 @@ h5 {
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
   gap: 1.2em;
 }
-.document-list.list .document-item .document-name {
+.document-list.list + .add-document-btn {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+.document-list .document-name {
   font-size: 1.5rem;
   font-weight: 700;
   color: #232834;
   margin-bottom: 0.1rem;
 }
-.document-list.list .document-item .document-name span {
+.document-list .document-name span {
   font-size: 1rem;
   font-weight: 400;
   color: #8a94a6;
   display: block;
   margin-top: 0.1rem;
 }
-.document-list.list .document-item .document-contributors,
-.document-list.list .document-item .document-attachments,
-.document-list.list .document-item .document-version {
+.document-list .document-contributors,
+.document-list .document-attachments,
+.document-list .document-version {
   color: #232834;
   font-size: 1rem;
-}
-.document-list.list + .add-document-btn {
-  width: 100%;
-  min-width: 0;
-  max-width: none;
 }
 
 .add-btn-row {
@@ -425,16 +388,15 @@ h5 {
     min-width: 80%;
   }
 }
-.column-headers {
+.document-list-headers {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-  align-items: center;
-  max-width: none;
-  min-width: 0;
-  margin: 0 0 0.5em 0;
+  grid-template-columns: 3fr 2fr 2fr;
+  margin-bottom: 1em;
   padding: 0 2em;
   color: #8a94a6;
-  font-weight: 600;
+}
+.document-list-headers .header-name {
+  padding-left: 1rem;
 }
 
 #sort-controls label {
@@ -442,9 +404,10 @@ h5 {
   margin-right: 0.5rem;
 }
 #sort-controls #sort-select {
+  flex: 1 1 0;
   color: #4a7cff;
-  font-weight: 700;
   font-size: 1rem;
+  transition: border 0.2s;
   background: none;
   border: none;
   box-shadow: none;
@@ -452,6 +415,9 @@ h5 {
   transition: none;
   padding: 0;
   cursor: pointer;
+}
+#sort-controls #sort-select:focus {
+  border: 0.12em solid #4a7cff;
 }
 
 /* Caret cross-browser: pseudo-element para Firefox */

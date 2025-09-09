@@ -1,0 +1,12 @@
+@use '../variables' as variables;
+
+.document-list-headers {
+  display: grid;
+  grid-template-columns: 3fr 2fr 2fr;
+  margin-bottom: 1em;
+  padding: 0 2em;
+  color: variables.$color-text-secondary;
+  .header-name {
+    padding-left: 1rem;
+  }
+}

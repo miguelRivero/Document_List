@@ -6,9 +6,10 @@
     margin-right: variables.$margin-xs;
   }
   #sort-select {
-  color: variables.$color-primary;
-  font-weight: variables.$font-weight-bold;
-  font-size: variables.$font-size-base;
+    flex: 1 1 0;
+    color: variables.$color-primary;
+    font-size: variables.$font-size-base;
+    transition: border variables.$transition-time;
     background: none;
     border: none;
     box-shadow: none;
@@ -16,6 +17,9 @@
     transition: none;
     padding: 0;
     cursor: pointer;
+    &:focus {
+      border: 0.12em solid variables.$color-primary;
+    }
   }
 }
 

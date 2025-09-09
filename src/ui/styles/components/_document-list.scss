@@ -39,26 +39,6 @@
       padding: 2em 1.5em;
       gap: 1.2em;
     }
-
-    .document-name {
-      font-size: variables.$font-size-lg;
-      font-weight: variables.$font-weight-bold;
-      color: variables.$color-text;
-      margin-bottom: 0.1rem;
-      span {
-        font-size: variables.$font-size-base;
-        font-weight: variables.$font-weight-regular;
-        color: variables.$color-text-secondary;
-        display: block;
-        margin-top: 0.1rem;
-      }
-    }
-    .document-contributors,
-    .document-attachments,
-    .document-version {
-      color: variables.$color-text;
-      font-size: variables.$font-size-base;
-    }
   }
 
   &.list {
@@ -74,31 +54,32 @@
       border-radius: variables.$radius;
       box-shadow: variables.$shadow;
       gap: 1.2em;
-      .document-name {
-        font-size: variables.$font-size-lg;
-        font-weight: variables.$font-weight-bold;
-        color: variables.$color-text;
-        margin-bottom: 0.1rem;
-        span {
-          font-size: variables.$font-size-base;
-          font-weight: variables.$font-weight-regular;
-          color: variables.$color-text-secondary;
-          display: block;
-          margin-top: 0.1rem;
-        }
-      }
-      .document-contributors,
-      .document-attachments,
-      .document-version {
-        color: variables.$color-text;
-        font-size: variables.$font-size-base;
-      }
     }
     & + .add-document-btn {
       width: 100%;
       min-width: 0;
       max-width: none;
     }
+  }
+
+  .document-name {
+    font-size: variables.$font-size-lg;
+    font-weight: variables.$font-weight-bold;
+    color: variables.$color-text;
+    margin-bottom: 0.1rem;
+    span {
+      font-size: variables.$font-size-base;
+      font-weight: variables.$font-weight-regular;
+      color: variables.$color-text-secondary;
+      display: block;
+      margin-top: 0.1rem;
+    }
+  }
+  .document-contributors,
+  .document-attachments,
+  .document-version {
+    color: variables.$color-text;
+    font-size: variables.$font-size-base;
   }
 }
 

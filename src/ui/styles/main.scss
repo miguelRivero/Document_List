@@ -3,10 +3,9 @@
 @use './reset';
 @use './layout';
 @use 'components/document-list';
-// @use 'components/document-form';
 @use 'components/add-document-modal';
 @use 'components/add-document-form';
 @use 'components/notification-banner';
-@use 'partials/column-headers';
+@use 'partials/list-headers';
 @use 'partials/sort-controls';
 @use 'partials/view-controls';

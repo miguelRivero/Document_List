@@ -30,28 +30,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  #sort-controls {
-    flex: 1 1 0;
-
-    label {
-      color: variables.$color-text-secondary;
-      font-size: variables.$font-size-base;
-      margin-right: 0.5em;
-      font-weight: variables.$font-weight-bold;
-    }
-
-    #sort-select {
-      font-size: variables.$font-size-base;
-      color: variables.$color-primary;
-      font-weight: variables.$font-weight-bold;
-      transition: border variables.$transition-time;
-
-      &:focus {
-        border: 0.12em solid variables.$color-primary;
-      }
-    }
-  }
 }
 
 h1,

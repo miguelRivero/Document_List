@@ -1,4 +1,4 @@
-import { AddDocumentModal, DocumentList, NotificationBanner } from './components/index.js'
+import { AddDocumentModal, DocumentList, NotificationBanner } from './components/index.js';
 
 import { DocumentApi } from '../infrastructure/DocumentApi.js';
 import { DocumentWebSocket } from '../infrastructure/DocumentWebSocket.js';

@@ -1,6 +1,6 @@
 @use './variables' as variables;
 
-.column-headers {
+.list-headers {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   align-items: center;
