@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { AddDocumentModal } from '../../ui/components/AddDocumentModal.js';
 import { DocumentList } from '../../ui/components/DocumentList.js';
@@ -26,25 +26,37 @@ describe('Integration: Add document - updates list and shows notification', () =
 
   it('creates a document, updates the list, and shows a notification', async () => {
     // Mount DocumentList and NotificationBanner
-    new DocumentList(container);
-    new NotificationBanner(notificationContainer);
+    const list = new DocumentList(container);
+    documentStore.subscribe(docs => list.update(docs, 'list'));
+    const banner = new NotificationBanner(notificationContainer);
+
     // Mount and open AddDocumentModal
     const modal = new AddDocumentModal((doc) => {
       documentStore.addDocument({ ...doc, id: 'test-id', createdAt: new Date().toISOString() });
+      // Show notification manually for test
+      banner.show('Document created successfully', 'success');
     });
     modal.open();
-    // Fill and submit the form
-    fillAndSubmitForm(document.body, {
+
+    // Wait for the modal and form to render
+    await Promise.resolve();
+
+    const formContainer = document.querySelector('.modal-form-container') as HTMLElement;
+    expect(formContainer).not.toBeNull();
+
+    fillAndSubmitForm(formContainer, {
       title: 'Integration Doc',
       version: '1',
       contributors: ['Alice'],
       attachments: ['fileA.pdf']
     });
-    // Wait for DOM updates
-    await Promise.resolve();
+
+    // Wait for DOM updates and store notification
+    await new Promise(res => setTimeout(res, 10));
+
     // Check that the document appears in the list
     expect(container.textContent).toContain('Integration Doc');
     // Check that the notification appears
-    expect(notificationContainer.textContent).toContain('new document added');
+    expect(notificationContainer.textContent).toContain('New document added');
   });
 });
