@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { DocumentList } from './DocumentList.js';
+import { DocumentList } from '../../ui/components/DocumentList.js';
 import { DocumentWebSocket } from '../../infrastructure/DocumentWebSocket.js';
 import { documentStore } from '../../ui/state/DocumentStore.js';
 

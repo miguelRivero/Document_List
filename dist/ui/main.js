@@ -24,6 +24,10 @@ const ws = new DocumentWebSocket();
 // Instantiate UI components
 const documentList = new DocumentList(listContainer);
 const notificationBanner = new NotificationBanner(notificationContainer);
+// Subscribe to store changes and re-render the list with the correct view mode
+documentStore.subscribe(() => {
+    renderDocuments();
+});
 let addDocumentModal = null;
 /**
  * Renders the document list based on current store state, view mode, and sort order.
@@ -34,6 +38,19 @@ function renderDocuments() {
         docs = sortDocuments(docs, sortBy);
     }
     documentList.update(docs, viewMode);
+    // Ensure view mode buttons reflect the current mode after any update
+    const listViewBtn = document.getElementById('list-view-btn');
+    const gridViewBtn = document.getElementById('grid-view-btn');
+    if (listViewBtn && gridViewBtn) {
+        if (viewMode === 'list') {
+            listViewBtn.classList.add('active');
+            gridViewBtn.classList.remove('active');
+        }
+        else {
+            gridViewBtn.classList.add('active');
+            listViewBtn.classList.remove('active');
+        }
+    }
 }
 /**
  * Handle Add Document button click to open modal.

@@ -1,8 +1,5 @@
-
-import type { ListDocument } from '../../domain/Document';
-
-import { documentStore } from '../state/DocumentStore.js';
 import type { Contributor } from '../../domain/Document';
+import type { ListDocument } from '../../domain/Document';
 
 /** Component to display a list of documents in either list or grid view.
  */
@@ -13,12 +10,6 @@ export class DocumentList {
 
   constructor(listContainer: HTMLElement) {
     this.listContainer = listContainer;
-    // Subscribe to store changes and update automatically
-    this.unsubscribe = documentStore.subscribe((docs) => {
-      this.update(docs);
-    });
-    // Initial render
-    this.update(documentStore.getDocuments());
   }
 
   destroy() {
@@ -30,7 +21,7 @@ export class DocumentList {
    * @param documents Array of documents to display
    * @param view 
    */
-  update(documents: ListDocument[], view: 'list' | 'grid' = 'list') {
+  update(documents: ListDocument[], view: 'list' | 'grid') {
     let html = '';
     if (view === 'list') {
       html = `

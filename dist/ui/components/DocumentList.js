@@ -1,16 +1,9 @@
-import { documentStore } from '../state/DocumentStore.js';
 /** Component to display a list of documents in either list or grid view.
  */
 export class DocumentList {
     constructor(listContainer) {
         this.unsubscribe = null;
         this.listContainer = listContainer;
-        // Subscribe to store changes and update automatically
-        this.unsubscribe = documentStore.subscribe((docs) => {
-            this.update(docs);
-        });
-        // Initial render
-        this.update(documentStore.getDocuments());
     }
     destroy() {
         if (this.unsubscribe)
@@ -21,7 +14,7 @@ export class DocumentList {
      * @param documents Array of documents to display
      * @param view
      */
-    update(documents, view = 'list') {
+    update(documents, view) {
         let html = '';
         if (view === 'list') {
             html = `

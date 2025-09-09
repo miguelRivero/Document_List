@@ -18,9 +18,15 @@ const notificationContainer = document.getElementById('notification-banner')!;
 const api = new DocumentApi('http://localhost:8080');
 const ws = new DocumentWebSocket();
 
+
 // Instantiate UI components
 const documentList = new DocumentList(listContainer);
 const notificationBanner = new NotificationBanner(notificationContainer);
+
+// Subscribe to store changes and re-render the list with the correct view mode
+documentStore.subscribe(() => {
+  renderDocuments();
+});
 
 let addDocumentModal: AddDocumentModal | null = null;
 
@@ -33,6 +39,18 @@ function renderDocuments() {
     docs = sortDocuments(docs, sortBy as 'name' | 'version' | 'createdAt');
   }
   documentList.update(docs, viewMode);
+  // Ensure view mode buttons reflect the current mode after any update
+  const listViewBtn = document.getElementById('list-view-btn');
+  const gridViewBtn = document.getElementById('grid-view-btn');
+  if (listViewBtn && gridViewBtn) {
+    if (viewMode === 'list') {
+      listViewBtn.classList.add('active');
+      gridViewBtn.classList.remove('active');
+    } else {
+      gridViewBtn.classList.add('active');
+      listViewBtn.classList.remove('active');
+    }
+  }
 }
 
 /**

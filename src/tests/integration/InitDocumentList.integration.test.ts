@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { DocumentList } from './DocumentList.js';
+import { DocumentList } from '../../ui/components/DocumentList.js';
 import { documentStore } from '../../ui/state/DocumentStore.js';
 
 describe('Integration: DocumentList + DocumentStore', () => {
