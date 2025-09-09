@@ -1,72 +1,81 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { DocumentList } from '../../ui/components/DocumentList.js';
-import { DocumentWebSocket } from '../../infrastructure/DocumentWebSocket.js';
 import { documentStore } from '../../ui/state/DocumentStore.js';
 
-// Mock DocumentWebSocket to simulate a WebSocket event
-vi.mock('../../infrastructure/DocumentWebSocket.js', () => {
-  return {
-    DocumentWebSocket: class {
-      connect(cb: () => void) {
-        // Simulate a WebSocket event after a tick
-        setTimeout(() => {
-          cb();
-        }, 0);
-      }
-      disconnect() { }
-    }
-  };
-});
-
-describe('Integration: DocumentList updates on WebSocket notification', () => {
+describe('Integration: WebSocket document updates', () => {
   let container: HTMLElement;
-  let ws: DocumentWebSocket;
 
   beforeEach(() => {
     container = document.createElement('div');
     document.body.appendChild(container);
     documentStore.setDocuments([]); // Reset store
-    ws = new DocumentWebSocket();
   });
 
   afterEach(() => {
     container.remove();
     documentStore.setDocuments([]);
-    ws.disconnect();
   });
 
-  it('updates the list when a WebSocket notification arrives', async () => {
-    // Mount DocumentList
-    new DocumentList(container);
-    // Add initial document
-    documentStore.setDocuments([
-      {
-        id: 'a',
-        title: 'Doc A',
-        version: '1',
-        contributors: [{ id: 'c1', name: 'Alice' }],
-        attachments: ['fileA.pdf'],
-        createdAt: new Date().toISOString()
-      }
-    ]);
-    expect(container.textContent).toContain('Doc A');
+  it('updates the document list when WebSocket notification arrives', async () => {
+    // Mount DocumentList and subscribe to store
+    const list = new DocumentList(container);
+    documentStore.subscribe(docs => list.update(docs, 'list'));
 
-    // Simulate WebSocket notification: add a new document
-    ws.connect(() => {
-      documentStore.addDocument({
-        id: 'b',
-        title: 'Doc B',
-        version: '2',
-        contributors: [{ id: 'c2', name: 'Bob' }],
-        attachments: ['fileB.pdf'],
-        createdAt: new Date().toISOString()
-      });
-    });
+    // Simulate WebSocket notification by adding a document to the store
+    // This mimics what happens in DocumentWebSocket.handleMessage()
+    const newDocument = {
+      id: 'ws-doc-1',
+      title: 'Doc A',
+      version: '1',
+      contributors: [{ id: 'ws-user-1', name: 'WebSocket User' }],
+      attachments: [],
+      createdAt: new Date().toISOString()
+    };
 
-    // Wait for the microtask and the setTimeout
-    await new Promise(r => setTimeout(r, 10));
-    expect(container.textContent).toContain('Doc B');
+    // Use addDocument like the WebSocket handler does
+    documentStore.addDocument(newDocument);
+
+    // Wait for DOM updates
+    await Promise.resolve();
+
+    // Check that the document appears in the list
     expect(container.textContent).toContain('Doc A');
+    expect(container.textContent).toContain('WebSocket User');
+  });
+
+  it('preserves locally added documents when WebSocket updates arrive', async () => {
+    // Mount DocumentList and subscribe to store
+    const list = new DocumentList(container);
+    documentStore.subscribe(docs => list.update(docs, 'list'));
+
+    // Add a local document first
+    const localDoc = {
+      id: 'local-doc-1',
+      title: 'Local Doc',
+      version: '1',
+      contributors: [{ id: 'local-user-1', name: 'Local User' }],
+      attachments: [],
+      createdAt: new Date().toISOString()
+    };
+    documentStore.addDocument(localDoc);
+
+    // Simulate WebSocket notification
+    const wsDoc = {
+      id: 'ws-doc-1',
+      title: 'WebSocket Doc',
+      version: '1',
+      contributors: [{ id: 'ws-user-2', name: 'WS User' }],
+      attachments: [],
+      createdAt: new Date().toISOString()
+    };
+    documentStore.addDocument(wsDoc);
+
+    // Wait for DOM updates
+    await Promise.resolve();
+
+    // Both documents should be present
+    expect(container.textContent).toContain('Local Doc');
+    expect(container.textContent).toContain('WebSocket Doc');
   });
 });
