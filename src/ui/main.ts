@@ -3,7 +3,7 @@ import { AddDocumentModal, DocumentList, NotificationBanner } from './components
 import { DocumentApi } from '../infrastructure/DocumentApi.js';
 import { DocumentWebSocket } from '../infrastructure/DocumentWebSocket.js';
 import { ListDocument } from '../domain/Document.js';
-import { compareSemver } from '../utils/semver.js';
+import { sortSemver } from '../utils/sortSemver.js';
 import { documentStore } from './state/index.js';
 
 
@@ -120,7 +120,7 @@ function sortDocuments(docs: ListDocument[], by: 'name' | 'version' | 'createdAt
     if (by === 'name') {
       return a.title.localeCompare(b.title);
     }
-    if (by === 'version') return compareSemver(a.version, b.version);
+  if (by === 'version') return sortSemver(a.version, b.version);
     if (by === 'createdAt') return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     return 0;
   });

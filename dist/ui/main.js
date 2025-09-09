@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { AddDocumentModal, DocumentList, NotificationBanner } from './components/index.js';
 import { DocumentApi } from '../infrastructure/DocumentApi.js';
 import { DocumentWebSocket } from '../infrastructure/DocumentWebSocket.js';
-import { compareSemver } from '../utils/semver.js';
+import { sortSemver } from '../utils/sortSemver.js';
 import { documentStore } from './state/index.js';
 // State for view mode and sort
 let viewMode = 'list';
@@ -103,7 +103,7 @@ function sortDocuments(docs, by) {
             return a.title.localeCompare(b.title);
         }
         if (by === 'version')
-            return compareSemver(a.version, b.version);
+            return sortSemver(a.version, b.version);
         if (by === 'createdAt')
             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         return 0;
