@@ -1,9 +1,17 @@
-// Simple helper to render HTML templates and attach them to the DOM
+/**
+ * Renders HTML content into a target element.
+ * @param target Target HTML element to render into
+ * @param html 
+ */
 export function render(target: HTMLElement, html: string) {
   target.innerHTML = html;
 }
 
-// Helper to create an element from an HTML string
+/**
+ * Converts a string of HTML into an HTMLElement.
+ * @param html String of HTML to convert to an HTMLElement
+ * @returns The created HTMLElement
+ */
 export function htmlToElement(html: string): HTMLElement {
   const template = document.createElement('template');
   template.innerHTML = html.trim();
