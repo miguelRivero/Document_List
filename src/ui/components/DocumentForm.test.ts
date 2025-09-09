@@ -1,6 +1,7 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { DocumentForm } from './DocumentForm.js';
-import type { NewDocument } from '../../domain/Document';
+import { fillAndSubmitForm } from '../../utils/fillAndSubmitForm.js';
 
 describe('DocumentForm', () => {
   let container: HTMLElement;
@@ -16,26 +17,7 @@ describe('DocumentForm', () => {
     container.remove();
   });
 
-  /**
-   * Fills the form with the provided values and submits it.
-   * @param form The form element to fill and submit.
-   * @param values The values to fill in the form.
-   * Contributors are omitted from the NewDocument type and added as a string array to mimic the user input.
-   */
-  function fillAndSubmit(
-    form: HTMLFormElement,
-    values: Partial<Omit<NewDocument, 'contributors'> & { contributors?: string[] }>
-  ) {
-    const titleInput = form.querySelector('input[name="title"]') as HTMLInputElement | null;
-    const versionInput = form.querySelector('input[name="version"]') as HTMLInputElement | null;
-    const contributorsInput = form.querySelector('input[name="contributors"]') as HTMLInputElement | null;
-    const attachmentsInput = form.querySelector('input[name="attachments"]') as HTMLInputElement | null;
-    if (values.title && titleInput) titleInput.value = values.title;
-    if (values.version && versionInput) versionInput.value = values.version;
-    if (values.contributors && contributorsInput) contributorsInput.value = values.contributors.join(', ');
-    if (values.attachments && attachmentsInput) attachmentsInput.value = values.attachments.join(', ');
-    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-  }
+
 
   it('validates required fields and shows feedback', async () => {
     new DocumentForm(container, onSubmit);
@@ -43,7 +25,7 @@ describe('DocumentForm', () => {
     expect(form).not.toBeNull();
     if (form) {
       // Try to submit with all required fields empty
-      fillAndSubmit(form, { title: '', version: '', contributors: [], attachments: [] });
+      fillAndSubmitForm(form, { title: '', version: '', contributors: [], attachments: [] });
       expect(container.innerHTML).toContain('Title is required.');
     }
   });
@@ -53,7 +35,7 @@ describe('DocumentForm', () => {
     const form = container.querySelector('form#document-form') as HTMLFormElement | null;
     expect(form).not.toBeNull();
     if (form) {
-      fillAndSubmit(form, {
+      fillAndSubmitForm(form, {
         title: 'Test Doc',
         version: '2',
         contributors: ['Alice', 'Bob'],
@@ -77,7 +59,7 @@ describe('DocumentForm', () => {
     const form = container.querySelector('form#document-form') as HTMLFormElement | null;
     expect(form).not.toBeNull();
     if (form) {
-      fillAndSubmit(form, {
+      fillAndSubmitForm(form, {
         title: 'Test Doc',
         version: '2',
         contributors: ['Alice'],
