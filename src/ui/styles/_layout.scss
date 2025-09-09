@@ -1,0 +1,63 @@
+@use './variables' as variables;
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: variables.$color-bg;
+  color: variables.$color-text;
+  min-height: 100vh;
+}
+
+.main-content {
+  max-width: 68.75rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.main-title {
+  font-size: variables.$font-size-xl;
+  font-weight: variables.$font-weight-bold;
+  margin-top: 8rem;
+  margin-bottom: 1rem;
+  color: variables.$color-text;
+}
+
+#controls-bar {
+  margin: 2rem auto;
+  max-width: 68.75rem;
+  gap: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  #sort-controls {
+    flex: 1 1 0;
+
+    label {
+      color: variables.$color-text-secondary;
+      font-size: variables.$font-size-base;
+      margin-right: 0.5em;
+      font-weight: variables.$font-weight-bold;
+    }
+
+    #sort-select {
+      font-size: variables.$font-size-base;
+      color: variables.$color-primary;
+      font-weight: variables.$font-weight-bold;
+      transition: border 0.2s;
+
+      &:focus {
+        border: 0.12em solid variables.$color-primary;
+      }
+    }
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: variables.$font-weight-bold;
+}

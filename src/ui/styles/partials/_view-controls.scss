@@ -1,0 +1,24 @@
+@use '../variables' as variables;
+
+#view-controls {
+  display: flex;
+  button {
+    padding: 0.25em;
+    color: variables.$color-text-secondary;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: variables.$font-size-xl;
+    font-weight: variables.$font-weight-bold;
+    transition: color 0.2s;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  button.active {
+    color: #111;
+  }
+}

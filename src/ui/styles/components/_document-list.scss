@@ -1,0 +1,156 @@
+@use '../variables' as variables;
+
+.document-list-headers {
+  display: grid;
+  grid-template-columns: 3fr 2fr 2fr;
+  align-items: end;
+  margin-bottom: 1rem;
+  color: variables.$color-text-secondary;
+  .header-name {
+    padding-left: 1rem;
+  }
+}
+
+.document-list {
+  gap: variables.$margin-lg;
+
+  &.scrollable-list {
+    max-height: 25rem;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  &.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: 1em;
+    justify-items: stretch;
+    align-items: start;
+    .document-item {
+      min-height: 18rem;
+      box-shadow: variables.$shadow;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: variables.$color-surface;
+      border-radius: variables.$radius;
+      padding: 2em 1.5em;
+      gap: 1.2em;
+    }
+    .document-name {
+      font-size: variables.$font-size-xl;
+      font-weight: variables.$font-weight-bold;
+      color: variables.$color-primary;
+      margin-bottom: 0.1rem;
+      span {
+        font-size: variables.$font-size-base;
+        font-weight: variables.$font-weight-regular;
+        color: variables.$color-text-secondary;
+        display: block;
+        margin-top: 0.1rem;
+      }
+    }
+    .document-contributors,
+    .document-attachments,
+    .document-version {
+      color: variables.$color-text;
+      font-size: variables.$font-size-base;
+    }
+  }
+
+  &.list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    .document-item {
+      display: grid;
+      grid-template-columns: 3fr 2fr 2fr;
+      align-items: start;
+      padding: variables.$margin-lg;
+      background: variables.$color-surface;
+      border-radius: variables.$radius;
+      box-shadow: variables.$shadow;
+      gap: 1.2em;
+      .document-name {
+        font-size: variables.$font-size-xl;
+        font-weight: variables.$font-weight-bold;
+        color: variables.$color-primary;
+        margin-bottom: 0.1rem;
+        span {
+          font-size: variables.$font-size-base;
+          font-weight: variables.$font-weight-regular;
+          color: variables.$color-text-secondary;
+          display: block;
+          margin-top: 0.1rem;
+        }
+      }
+      .document-contributors,
+      .document-attachments,
+      .document-version {
+        color: variables.$color-text;
+        font-size: variables.$font-size-base;
+      }
+    }
+    & + .add-document-btn {
+      width: 100%; // Mantener para botón en list mode
+      min-width: 0;
+      max-width: none;
+    }
+  }
+}
+
+.add-btn-row {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.sticky-add-btn {
+  background: variables.$color-surface;
+  color: variables.$color-primary;
+  border: 2px solid variables.$color-primary;
+  border-radius: variables.$radius;
+  box-shadow: variables.$shadow;
+  padding: 1rem 0;
+  font-size: variables.$font-size-xl;
+  font-weight: variables.$font-weight-regular;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border 0.2s;
+  cursor: pointer;
+  text-align: center;
+  min-width: 18rem;
+  max-width: 22rem;
+  &:hover,
+  &:focus {
+    background: variables.$color-primary;
+    color: variables.$color-surface;
+    border-color: variables.$color-primary;
+  }
+}
+
+@media (max-width: 600px) {
+  .document-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    &.list,
+    &.grid {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .document-item {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.5em;
+      width: 100%;
+    }
+    .document-name,
+    .document-contributors,
+    .document-attachments {
+      width: 100%;
+      text-align: center !important;
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,52 @@
+@use '../variables' as variables;
+
+#sort-controls {
+  label {
+    color: variables.$color-text-secondary;
+    margin-right: variables.$margin-xs;
+  }
+  #sort-select {
+  color: variables.$color-primary;
+  font-weight: variables.$font-weight-bold;
+  font-size: variables.$font-size-base;
+    background: none;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    transition: none;
+    padding: 0;
+    cursor: pointer;
+  }
+}
+
+/* Caret cross-browser: pseudo-element para Firefox */
+#sort-select::-ms-expand {
+  display: none;
+}
+#sort-select::-webkit-select-placeholder {
+  color: transparent;
+}
+#sort-select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 variables.$color-text;
+}
+
+@-moz-document url-prefix() {
+  #sort-select {
+    background-image: none !important;
+    position: relative;
+  }
+  #sort-select::after {
+    content: '';
+    display: block;
+    pointer-events: none;
+    position: absolute;
+    right: 0.8em;
+    top: 50%;
+    width: 1.2em;
+    height: 1.2em;
+    transform: translateY(-50%);
+    background: url('data:image/svg+xml;utf8,<svg fill="%23222" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M5.516 7.548a.625.625 0 0 1 .884-.032L10 10.885l3.6-3.369a.625.625 0 1 1 .852.916l-4.025 3.77a.625.625 0 0 1-.852 0l-4.025-3.77a.625.625 0 0 1-.032-.884z"/></svg>')
+      no-repeat center/contain;
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "emitDeclarationOnly": false,
+    "declaration": false,
+    "noEmit": false
+  },
+  "include": ["src/**/*"]
+}

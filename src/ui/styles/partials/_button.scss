@@ -1,0 +1,64 @@
+@use 'sass:color';
+@use '../variables' as variables;
+
+.btn,
+.add-document-btn,
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: variables.$font-size-xl;
+  font-weight: variables.$font-weight-bold;
+  color: variables.$color-primary;
+  background: variables.$color-surface;
+  border: none;
+  border-radius: variables.$radius;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    box-shadow 0.15s;
+  box-shadow: variables.$shadow;
+  outline: none;
+  background: variables.$color-surface;
+  text-align: center;
+}
+
+.btn:hover,
+.btn:focus,
+.add-document-btn:hover,
+.add-document-btn:focus,
+.submit-btn:hover,
+.submit-btn:focus {
+  background: color.adjust(variables.$color-primary, $lightness: 3%);
+  color: color.adjust(variables.$color-primary, $lightness: -10%);
+  background: variables.$color-surface;
+  .btn:disabled,
+  .add-document-btn:disabled,
+  .submit-btn:disabled {
+    color: variables.$color-text-secondary;
+    cursor: not-allowed;
+    background: variables.$color-surface;
+    background: variables.$color-surface;
+  }
+
+  background: variables.$color-surface;
+  align-items: center;
+  justify-content: center;
+  font-size: variables.$font-size-xl;
+  font-weight: variables.$font-weight-bold;
+  color: variables.$color-primary;
+  background: variables.$color-surface;
+  background: variables.$color-surface;
+  border-radius: variables.$radius;
+  padding: 0.7em 1.5em;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    box-shadow 0.15s;
+  box-shadow: variables.$shadow;
+  outline: none;
+  gap: 0.5em;
+  text-align: center;
+}
