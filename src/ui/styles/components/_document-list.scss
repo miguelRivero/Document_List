@@ -22,12 +22,13 @@
 
   &.grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1em;
     justify-items: stretch;
-    align-items: start;
+    align-items: stretch;
     .document-item {
       min-height: 18rem;
+      height: 100%;
       box-shadow: variables.$shadow;
       display: flex;
       flex-direction: column;
@@ -38,10 +39,11 @@
       padding: 2em 1.5em;
       gap: 1.2em;
     }
+
     .document-name {
-      font-size: variables.$font-size-xl;
+      font-size: variables.$font-size-lg;
       font-weight: variables.$font-weight-bold;
-      color: variables.$color-primary;
+      color: variables.$color-text;
       margin-bottom: 0.1rem;
       span {
         font-size: variables.$font-size-base;
@@ -73,9 +75,9 @@
       box-shadow: variables.$shadow;
       gap: 1.2em;
       .document-name {
-        font-size: variables.$font-size-xl;
+        font-size: variables.$font-size-lg;
         font-weight: variables.$font-weight-bold;
-        color: variables.$color-primary;
+        color: variables.$color-text;
         margin-bottom: 0.1rem;
         span {
           font-size: variables.$font-size-base;
@@ -93,7 +95,7 @@
       }
     }
     & + .add-document-btn {
-      width: 100%; // Mantener para botón en list mode
+      width: 100%;
       min-width: 0;
       max-width: none;
     }
@@ -103,30 +105,15 @@
 .add-btn-row {
   margin-top: 1em;
   margin-bottom: 1em;
-}
-
-.sticky-add-btn {
-  background: variables.$color-surface;
-  color: variables.$color-primary;
-  border: 2px solid variables.$color-primary;
-  border-radius: variables.$radius;
-  box-shadow: variables.$shadow;
-  padding: 1rem 0;
-  font-size: variables.$font-size-xl;
-  font-weight: variables.$font-weight-regular;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border 0.2s;
-  cursor: pointer;
-  text-align: center;
-  min-width: 18rem;
-  max-width: 22rem;
-  &:hover,
-  &:focus {
-    background: variables.$color-primary;
-    color: variables.$color-surface;
-    border-color: variables.$color-primary;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+  .add-document-btn {
+    grid-column: 1 / 2;
+    width: 100%;
+    max-width: none;
+    align-self: stretch;
+    justify-self: stretch;
   }
 }
 

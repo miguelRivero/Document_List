@@ -123,19 +123,20 @@ function loadDocuments() {
 }
 // Listen for real-time notifications
 ws.connect(() => {
-    notificationBanner.show();
-    // Only react to the event, ignore the notification content
     api.getRecentDocuments().then(newDocs => {
         const existing = documentStore.getDocuments();
         const docMap = new Map(existing.map(doc => [doc.id, doc]));
         let addedDoc = null;
+        let newCount = 0;
         for (const doc of newDocs) {
             if (!docMap.has(doc.id)) {
                 addedDoc = doc;
+                newCount++;
             }
             docMap.set(doc.id, doc);
         }
         const merged = Array.from(docMap.values());
+        notificationBanner.show(newCount);
         if (addedDoc) {
             console.log('[DocumentStore] New document added:', addedDoc);
         }

@@ -11,14 +11,18 @@
     box-shadow: none;
     font-size: variables.$font-size-xl;
     font-weight: variables.$font-weight-bold;
-    transition: color 0.2s;
+  transition: color variables.$transition-time;
     cursor: pointer;
     outline: none;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  button.active {
-    color: #111;
+
+    &:first-child {
+      padding-right: 0;
+    }
+    &:last-child {
+      padding-left: 0.5em;
+    }
   }
 }

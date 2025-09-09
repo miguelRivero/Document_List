@@ -4,13 +4,16 @@ export class NotificationBanner {
         this.timeoutId = null;
         this.container = container;
     }
-    show() {
+    show(count = 0) {
         this.container.innerHTML = `
-        <div class="notification-banner notification-banner--enter">
-          <img src="./assets/bell.svg" width="20" height="20" alt="Bell icon" style="margin-right:0.5em;display:inline-block;vertical-align:middle;" />
-          <span>New document added</span>
-        </div>
-      `;
+      <div class="notification-banner notification-banner--enter">
+        <span class="notification-icon">
+          <img src="./assets/bell.svg" width="20" height="20" alt="Bell icon" />
+          ${count > 0 ? `<span class=\"notification-badge\">${count}</span>` : ''}
+        </span>
+        <span>New document added</span>
+      </div>
+    `;
         this.container.style.display = 'block';
         // Forzar reflow para activar la transición
         const banner = this.container.querySelector('.notification-banner');

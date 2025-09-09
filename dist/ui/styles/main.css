@@ -6,7 +6,7 @@
 
 body {
   font-family: "Inter", Arial, sans-serif;
-  background: #f3f5f8;
+  background: #edeff3;
   color: #232834;
   min-height: 100vh;
 }
@@ -83,13 +83,14 @@ h5 {
 }
 .document-list.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1em;
   justify-items: stretch;
-  align-items: start;
+  align-items: stretch;
 }
 .document-list.grid .document-item {
   min-height: 18rem;
+  height: 100%;
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
   display: flex;
   flex-direction: column;
@@ -101,9 +102,9 @@ h5 {
   gap: 1.2em;
 }
 .document-list.grid .document-name {
-  font-size: 2.4rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #4a7cff;
+  color: #232834;
   margin-bottom: 0.1rem;
 }
 .document-list.grid .document-name span {
@@ -135,9 +136,9 @@ h5 {
   gap: 1.2em;
 }
 .document-list.list .document-item .document-name {
-  font-size: 2.4rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #4a7cff;
+  color: #232834;
   margin-bottom: 0.1rem;
 }
 .document-list.list .document-item .document-name span {
@@ -162,27 +163,16 @@ h5 {
 .add-btn-row {
   margin-top: 1em;
   margin-bottom: 1em;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
 }
-
-.sticky-add-btn {
-  background: #fff;
-  color: #4a7cff;
-  border: 2px solid #4a7cff;
-  border-radius: 1rem;
-  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
-  padding: 1rem 0;
-  font-size: 2.4rem;
-  font-weight: 400;
-  transition: background 0.2s, color 0.2s, border 0.2s;
-  cursor: pointer;
-  text-align: center;
-  min-width: 18rem;
-  max-width: 22rem;
-}
-.sticky-add-btn:hover, .sticky-add-btn:focus {
-  background: #4a7cff;
-  color: #fff;
-  border-color: #4a7cff;
+.add-btn-row .add-document-btn {
+  grid-column: 1/2;
+  width: 100%;
+  max-width: none;
+  align-self: stretch;
+  justify-self: stretch;
 }
 
 @media (max-width: 600px) {
@@ -208,129 +198,24 @@ h5 {
     margin: 0;
   }
 }
-.modal-form-container form {
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem 2.5rem;
-}
-.modal-form-container form label {
-  font-size: 1rem;
-  color: #232834;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-.modal-form-container form input[type=text],
-.modal-form-container form input[type=number] {
-  margin-top: 0.4em;
-  border: 1.5px solid #4a7cff;
-  font-size: 1rem;
-  background: #fff;
-  color: #232834;
-  transition: border-color 0.18s;
-}
-.modal-form-container form input:focus {
-  border-color: rgb(128.3, 163.3, 255);
-}
-.modal-form-container form .submit-btn {
-  grid-column: 1/-1;
-  margin-top: 0.5rem;
-  color: #4a7cff;
-  font-size: 2.4rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  text-align: center;
-}
-.modal-form-container form .submit-btn:hover, .modal-form-container form .submit-btn:focus {
-  background: rgb(89.3, 135.073480663, 255);
-  color: rgb(23, 87.0883977901, 255);
-}
-.modal-form-container form .submit-btn:disabled {
-  color: #8a94a6;
-  cursor: not-allowed;
-}
-.modal-form-container form .form-feedback {
-  font-size: 1rem;
-  margin-top: 0.5rem;
-  grid-column: 1/-1;
-}
-
 .btn, .modal-form-container form .submit-btn,
 .add-document-btn,
 .submit-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.4rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 400;
+  background: #f3f5f8;
   color: #4a7cff;
-  background: #fff;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+  outline: none;
+  text-align: center;
   border: none;
-  border-radius: 1rem;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
-  outline: none;
-  background: #fff;
-  text-align: center;
-}
-
-.btn:hover, .modal-form-container form .submit-btn:hover,
-.btn:focus,
-.modal-form-container form .submit-btn:focus,
-.add-document-btn:hover,
-.add-document-btn:focus,
-.submit-btn:hover,
-.submit-btn:focus {
-  background: rgb(89.3, 135.073480663, 255);
-  color: rgb(23, 87.0883977901, 255);
-  background: #fff;
-}
-.btn:hover .btn:disabled,
-.btn:hover .add-document-btn:disabled,
-.btn:hover .submit-btn:disabled,
-.btn:focus .btn:disabled,
-.btn:focus .add-document-btn:disabled,
-.btn:focus .submit-btn:disabled,
-.add-document-btn:hover .btn:disabled,
-.add-document-btn:hover .add-document-btn:disabled,
-.add-document-btn:hover .submit-btn:disabled,
-.add-document-btn:focus .btn:disabled,
-.add-document-btn:focus .add-document-btn:disabled,
-.add-document-btn:focus .submit-btn:disabled,
-.submit-btn:hover .btn:disabled,
-.submit-btn:hover .add-document-btn:disabled,
-.submit-btn:hover .submit-btn:disabled,
-.submit-btn:focus .btn:disabled,
-.submit-btn:focus .add-document-btn:disabled,
-.submit-btn:focus .submit-btn:disabled {
-  color: #8a94a6;
-  cursor: not-allowed;
-  background: #fff;
-  background: #fff;
-}
-.btn:hover, .modal-form-container form .submit-btn:hover,
-.btn:focus,
-.modal-form-container form .submit-btn:focus,
-.add-document-btn:hover,
-.add-document-btn:focus,
-.submit-btn:hover,
-.submit-btn:focus {
-  background: #fff;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: #4a7cff;
-  background: #fff;
-  background: #fff;
-  border-radius: 1rem;
-  padding: 0.7em 1.5em;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
-  outline: none;
-  gap: 0.5em;
-  text-align: center;
+  padding: 1rem 0;
 }
 
 .add-document-btn {
@@ -351,14 +236,14 @@ h5 {
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .modal-overlay.open {
   opacity: 1;
   pointer-events: all;
 }
 .modal-overlay .modal-content {
-  background: #4a7cff;
+  background: #edeff3;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
   padding: 2.5rem 2.25rem 2rem 2.25rem;
@@ -384,7 +269,7 @@ h5 {
   height: 2.2em;
   line-height: 2.2em;
   text-align: center;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.2s, color 0.2s;
   z-index: 1;
 }
 .modal-overlay .modal-content .modal-close-btn:hover, .modal-overlay .modal-content .modal-close-btn:focus {
@@ -419,12 +304,12 @@ h5 {
 .modal-form-container form input[type=number] {
   margin-top: 0.4em;
   padding: 0.7em 1em;
-  border: 1.5px solid #4a7cff;
+  border: 1.5px solid #e3e7ee;
   border-radius: 1rem;
   font-size: 1rem;
   background: #fff;
   color: #232834;
-  transition: border-color 0.18s;
+  transition: border-color 0.2s;
   width: 100%;
 }
 .modal-form-container form input[type=text]:focus,
@@ -436,7 +321,6 @@ h5 {
 }
 .modal-form-container form .submit-btn {
   grid-column: 1/-1;
-  margin-top: 2.5rem;
 }
 .modal-form-container form .form-feedback {
   font-size: 1rem;
@@ -452,18 +336,17 @@ h5 {
   z-index: 10;
 }
 #notification-banner .notification-banner {
-  background: #f3f5f8;
+  background: #edeff3;
   color: #8a94a6;
-  gap: 0.7em;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
   padding: 0.6em 1.2em;
   margin: 0 auto 1.2em auto;
   max-width: 18em;
   opacity: 0;
-  transform: translateY(-12px);
+  transform: translateY(-0.75em);
   pointer-events: none;
-  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
   position: relative;
 }
@@ -481,6 +364,8 @@ h5 {
   transform: translateY(-12px);
 }
 #notification-banner .notification-banner .notification-icon {
+  display: inline-block;
+  vertical-align: middle;
   position: relative;
   width: 1.5em;
   height: 1.5em;
@@ -494,18 +379,18 @@ h5 {
 }
 #notification-banner .notification-banner .notification-icon .notification-badge {
   position: absolute;
-  top: -0.3em;
-  right: -0.3em;
+  top: -0.5em;
+  right: -0.5em;
   background: #4a7cff;
   color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.75rem;
   border-radius: 1em;
-  min-width: 1.1em;
-  height: 1.1em;
+  min-width: 1.5em;
+  height: 1.5em;
   box-shadow: 0 1px 4px rgba(44, 62, 80, 0.1);
-  border: 2px solid #fff;
+  border: 1px solid #fff;
   z-index: 1;
+  text-align: center;
 }
 #notification-banner .notification-banner span {
   vertical-align: middle;
@@ -597,8 +482,11 @@ h5 {
   align-items: center;
   justify-content: center;
 }
-#view-controls button.active {
-  color: #111;
+#view-controls button:first-child {
+  padding-right: 0;
+}
+#view-controls button:last-child {
+  padding-left: 0.5em;
 }
 
 /*# sourceMappingURL=main.css.map */

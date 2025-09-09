@@ -9,22 +9,22 @@
     gap: 1.5rem 2.5rem;
 
     label {
-  font-size: variables.$font-size-base;
-  color: variables.$color-text;
-  font-weight: variables.$font-weight-bold;
-  margin-bottom: variables.$margin-xs;
+      font-size: variables.$font-size-base;
+      color: variables.$color-text;
+      font-weight: variables.$font-weight-bold;
+      margin-bottom: variables.$margin-xs;
     }
 
     input[type='text'],
     input[type='number'] {
       margin-top: 0.4em;
       padding: 0.7em 1em;
-    border: 1.5px solid variables.$color-primary;
+      border: 1.5px solid variables.$color-border;
       border-radius: variables.$radius;
       font-size: variables.$font-size-base;
-  background: variables.$color-surface;
+      background: variables.$color-surface;
       color: variables.$color-text;
-      transition: border-color 0.18s;
+      transition: border-color variables.$transition-time;
       width: 100%;
       &:focus {
         border-color: variables.$color-text-secondary;
@@ -36,7 +36,6 @@
 
     .submit-btn {
       grid-column: 1 / -1;
-      margin-top: variables.$margin-lg;
       @extend .btn;
     }
 
