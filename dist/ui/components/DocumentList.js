@@ -1,21 +1,15 @@
+/** Component to display a list of documents in either list or grid view.
+ */
 export class DocumentList {
-    constructor(container) {
-        this.listContainer = null;
-        this.view = 'list';
-        this.container = container;
-        this.renderHeaders();
+    constructor(listContainer) {
+        this.listContainer = listContainer;
     }
-    renderHeaders() {
-        this.container.innerHTML = `
-      <div id="document-list"></div>
-    `;
-        this.listContainer = this.container.querySelector('#document-list');
-    }
+    /**
+     *
+     * @param documents Array of documents to display
+     * @param view
+     */
     update(documents, view = 'list') {
-        this.view = view;
-        if (!this.listContainer) {
-            this.renderHeaders();
-        }
         let html = '';
         if (view === 'list') {
             html = `

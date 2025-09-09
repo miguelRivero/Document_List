@@ -1,27 +1,20 @@
 import type { ListDocument } from '../../domain/Document';
 
+/** Component to display a list of documents in either list or grid view.
+ */
 export class DocumentList {
-  private container: HTMLElement;
-  private listContainer: HTMLElement | null = null;
-  private view: 'list' | 'grid' = 'list';
+  private listContainer: HTMLElement;
 
-  constructor(container: HTMLElement) {
-    this.container = container;
-    this.renderHeaders();
+  constructor(listContainer: HTMLElement) {
+    this.listContainer = listContainer;
   }
 
-  private renderHeaders() {
-    this.container.innerHTML = `
-      <div id="document-list"></div>
-    `;
-    this.listContainer = this.container.querySelector('#document-list');
-  }
-
+  /**
+   * 
+   * @param documents Array of documents to display
+   * @param view 
+   */
   update(documents: ListDocument[], view: 'list' | 'grid' = 'list') {
-    this.view = view;
-    if (!this.listContainer) {
-      this.renderHeaders();
-    }
     let html = '';
     if (view === 'list') {
       html = `

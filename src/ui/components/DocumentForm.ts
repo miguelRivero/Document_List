@@ -1,5 +1,12 @@
+/**
+ * Converts a comma-separated string to an array of trimmed, non-empty strings.
+ */
 import type { NewDocument } from '../../domain/Document';
 
+/**
+ * Component to handle the document creation form with validation and feedback.
+ * Includes accessibility features and user feedback.
+ */
 export class DocumentForm {
   private container: HTMLElement;
   private onSubmit: (doc: NewDocument) => void;
@@ -12,6 +19,9 @@ export class DocumentForm {
     this.render();
   }
 
+  /**
+   * Renders the form HTML and sets the submit handler.
+   */
   private render() {
     this.container.innerHTML = `
       <form id="document-form" aria-label="Add document form" autocomplete="off" novalidate>
@@ -39,12 +49,16 @@ export class DocumentForm {
     this.feedback = this.container.querySelector('.form-feedback');
     if (this.form) {
       this.form.onsubmit = (e) => this.handleSubmit(e);
-      // Accesibilidad: foco en el primer campo
       const firstInput = this.form.querySelector('input[name="title"]') as HTMLInputElement;
       if (firstInput) setTimeout(() => firstInput.focus(), 0);
     }
   }
 
+  /**
+   * Sets feedback message for the user.
+   * @param msg 
+   * @param type 
+   */
   private setFeedback(msg: string, type: 'error' | 'success' = 'error') {
     if (this.feedback) {
       this.feedback.textContent = msg;
@@ -52,10 +66,17 @@ export class DocumentForm {
     }
   }
 
+  /**
+   * Clears feedback message for the user.
+   */
   private clearFeedback() {
     if (this.feedback) this.feedback.textContent = '';
   }
 
+  /**
+   * Sets the loading state for the form.
+   * @param loading Whether the form is in a loading state.
+   */
   private setLoading(loading: boolean) {
     if (!this.form) return;
     const btn = this.form.querySelector('.submit-btn') as HTMLButtonElement;
@@ -63,16 +84,19 @@ export class DocumentForm {
     btn.textContent = loading ? 'Creating…' : 'Create Document';
   }
 
+  /**
+   * Handles form submission.
+   * @param e, Event  
+   */
   private async handleSubmit(e: Event) {
     e.preventDefault();
     if (!this.form) return;
     this.clearFeedback();
     const data = new FormData(this.form);
-    // Validación avanzada
-  const title = (data.get('title') as string || '').trim();
-  const version = (data.get('version') as string || '').trim();
-  const contributorsRaw = (data.get('contributors') as string || '').trim();
-  const attachmentsRaw = (data.get('attachments') as string || '').trim();
+    const title = (data.get('title') as string || '').trim();
+    const version = (data.get('version') as string || '').trim();
+    const contributorsRaw = (data.get('contributors') as string || '').trim();
+    const attachmentsRaw = (data.get('attachments') as string || '').trim();
 
     if (!title) {
       this.setFeedback('Title is required.');
@@ -86,14 +110,19 @@ export class DocumentForm {
       this.setFeedback('At least one contributor is required.');
       return;
     }
-    // Process contributors and attachments
-    const contributors = contributorsRaw.split(',').map(name => ({ id: '', name: name.trim() })).filter(c => c.name);
-    if (contributors.length === 0) {
-      this.setFeedback('At least one valid contributor is required.');
+    if (!attachmentsRaw) {
+      this.setFeedback('At least one contributor is required.');
       return;
     }
+
+    // Process contributors as array of objects with random id
+    const contributors = contributorsRaw
+      ? parseCommaSeparated(contributorsRaw).map(name => ({ id: genId(), name }))
+      : [];
+
+    // Process attachments as array of strings
     const attachments = attachmentsRaw
-      ? attachmentsRaw.split(',').map(url => url.trim()).filter(Boolean)
+      ? parseCommaSeparated(attachmentsRaw)
       : [];
 
     const doc: NewDocument = {
@@ -112,9 +141,28 @@ export class DocumentForm {
       if (firstInput) firstInput.focus();
     } catch (err: any) {
       this.setFeedback('Error creating document. Please try again.');
-      console.eror(err);
+      console.error(err);
     } finally {
       this.setLoading(false);
     }
   }
+}
+
+/**
+ * Generates a random ID (uses crypto.randomUUID if available, else fallback).
+ * @returns string
+ */
+function genId(): string {
+  return (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
+    ? crypto.randomUUID()
+    : Math.random().toString(36).slice(2);
+}
+
+/**
+ * Parses a comma-separated string into an array of trimmed strings.
+ * @param str Comma-separated string
+ * @returns string[]
+ */
+function parseCommaSeparated(str: string): string[] {
+  return str.split(',').map(s => s.trim()).filter(Boolean);
 }

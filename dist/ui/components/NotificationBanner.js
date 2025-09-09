@@ -1,4 +1,7 @@
-// Simple notification banner for real-time document creation
+/**
+ * NotificationBanner.ts
+ * Component to display a notification banner with animation.
+ */
 export class NotificationBanner {
     constructor(container) {
         this.hideBannerTimeout = null;
@@ -6,7 +9,7 @@ export class NotificationBanner {
     }
     /**
      * Show the notification banner with the specified document count.
-     * @param count - The number of new documents.
+     * @param count - The number of new documents (to be shown in badge).
      */
     show(count = 0) {
         this.container.innerHTML = `

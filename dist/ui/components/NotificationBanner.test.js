@@ -1,5 +1,5 @@
-import { vi } from 'vitest';
 import { NotificationBanner } from './NotificationBanner';
+import { vi } from 'vitest';
 describe('NotificationBanner', () => {
     let container;
     let banner;
@@ -14,21 +14,23 @@ describe('NotificationBanner', () => {
         vi.useRealTimers();
         container.remove();
     });
+    it('shows the banner without badge if count=0', () => {
+        banner.show(0);
+        expect(container.innerHTML).toContain('notification-banner');
+        expect(container.innerHTML).not.toContain('notification-badge');
+    });
     it('shows the banner with the document count', () => {
         banner.show(3);
         expect(container.innerHTML).toContain('notification-banner');
         expect(container.innerHTML).toContain('notification-badge');
         expect(container.innerHTML).toContain('3');
     });
-    it('shows the banner without badge if count=0', () => {
-        banner.show(0);
-        expect(container.innerHTML).toContain('notification-banner');
-        expect(container.innerHTML).not.toContain('notification-badge');
-    });
     it('hides the banner after the timeout', () => {
         banner.show(2);
         vi.advanceTimersByTime(2000);
         const notification_banner = container.querySelector('.notification-banner');
+        // Simulate the end of the CSS transition to trigger the banner cleanup logic
+        // (in the real browser, this happens automatically after the animation)
         if (notification_banner) {
             const event = new Event('transitionend');
             notification_banner.dispatchEvent(event);
