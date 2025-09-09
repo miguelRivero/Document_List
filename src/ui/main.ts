@@ -137,20 +137,19 @@ async function loadDocuments() {
 ws.connect(() => {
   api.getRecentDocuments().then(newDocs => {
     const existing = documentStore.getDocuments();
-    const docMap = new Map(existing.map(doc => [doc.id, doc]));
-    let addedDoc: ListDocument | null = null;
-    let newCount = 0;
-    for (const doc of newDocs) {
-      if (!docMap.has(doc.id)) {
-        addedDoc = doc;
-        newCount++;
-      }
-      docMap.set(doc.id, doc);
+    // Documents that exist only locally (not in API response)
+    const localOnly = existing.filter(doc => !newDocs.some(nd => nd.id === doc.id));
+    // Merge: API docs (newest first), then local-only docs
+    const merged = [...newDocs, ...localOnly];
+    // Show notification only for truly new from API
+    const existingIds = new Set(existing.map(doc => doc.id));
+    const trulyNew = newDocs.filter(doc => !existingIds.has(doc.id));
+    notificationBanner.show(trulyNew.length);
+    if (trulyNew.length > 0) {
+      console.log('[DocumentStore] New documents added:', trulyNew);
     }
-    const merged = Array.from(docMap.values());
-    notificationBanner.show(newCount);
-    if (addedDoc) {
-      console.log('[DocumentStore] New document added:', addedDoc);
+    if (localOnly.length > 0) {
+      console.log('[DocumentStore] Local-only documents kept:', localOnly);
     }
     console.log('[DocumentStore] Total documents:', merged.length);
     documentStore.setDocuments(merged);
