@@ -20,18 +20,22 @@ export function fillAndSubmitForm(
 
   if (titleInput) {
     titleInput.value = values.title;
+    // Dispatch 'input' event to simulate user typing - triggers validation and component state updates
     titleInput.dispatchEvent(new Event('input', { bubbles: true }));
   }
   if (versionInput) {
     versionInput.value = values.version;
+    // Dispatch 'input' event to simulate user typing - triggers validation and component state updates
     versionInput.dispatchEvent(new Event('input', { bubbles: true }));
   }
   if (contributorsInput) {
     contributorsInput.value = values.contributors.join(', ');
+    // Dispatch 'input' event to simulate user typing - triggers validation and component state updates
     contributorsInput.dispatchEvent(new Event('input', { bubbles: true }));
   }
   if (attachmentsInput) {
     attachmentsInput.value = values.attachments.join(', ');
+    // Dispatch 'input' event to simulate user typing - triggers validation and component state updates
     attachmentsInput.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
