@@ -1,6 +1,16 @@
 
 
-// This class manages the WebSocket connection to receive real-time document notifications from the server.
+/**
+ * Manages WebSocket connections to receive real-time document notifications.
+ * The server sends notifications with the following structure:
+ * {
+ *   Timestamp: string,
+ *   UserID: string,
+ *   UserName: string,
+ *   DocumentID: string,
+ *   DocumentTitle: string
+ * }
+ */
 export class DocumentWebSocket {
   // Holds the WebSocket instance
   private ws: WebSocket | null = null;
@@ -23,7 +33,7 @@ export class DocumentWebSocket {
    */
   disconnect() {
     if (this.ws) {
-      this.ws.close(); // Close the connection
+      this.ws.close();
       this.ws = null;
     }
   }
