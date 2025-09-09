@@ -6,17 +6,10 @@ import { ListDocument } from '../domain/Document.js';
 import { compareSemver } from '../utils/semver.js';
 import { documentStore } from './state/index.js';
 
+
 // State for view mode and sort
 let viewMode: 'list' | 'grid' = 'list';
 let sortBy: 'none' | 'name' | 'version' | 'createdAt' = 'none';
-
-function renderDocuments() {
-  let docs = documentStore.getDocuments();
-  if (sortBy !== 'none') {
-    docs = sortDocuments(docs, sortBy as 'name' | 'version' | 'createdAt');
-  }
-  documentList.update(docs, viewMode);
-}
 
 // Get references to DOM containers
 const listContainer = document.getElementById('document-list')!;
@@ -31,6 +24,15 @@ const documentList = new DocumentList(listContainer);
 const notificationBanner = new NotificationBanner(notificationContainer);
 
 let addDocumentModal: AddDocumentModal | null = null;
+
+
+function renderDocuments() {
+  let docs = documentStore.getDocuments();
+  if (sortBy !== 'none') {
+    docs = sortDocuments(docs, sortBy as 'name' | 'version' | 'createdAt');
+  }
+  documentList.update(docs, viewMode);
+}
 
 document.addEventListener('click', (e) => {
   const target = e.target as HTMLElement;
@@ -87,6 +89,7 @@ const listViewBtn = document.getElementById('list-view-btn');
 const gridViewBtn = document.getElementById('grid-view-btn');
 const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
 
+
 if (listViewBtn && gridViewBtn) {
   listViewBtn.classList.add('active');
   gridViewBtn.classList.remove('active');
@@ -112,14 +115,6 @@ if (sortSelect) {
   });
 }
 
-  let docs = documentStore.getDocuments();
-  if (sortBy !== 'none') {
-    docs = sortDocuments(docs, sortBy as 'name' | 'version' | 'createdAt');
-  }
-  documentList.update(docs, viewMode);
-}
-
-
 function sortDocuments(docs: ListDocument[], by: 'name' | 'version' | 'createdAt') {
   return [...docs].sort((a, b) => {
     if (by === 'name') {
@@ -135,6 +130,7 @@ function sortDocuments(docs: ListDocument[], by: 'name' | 'version' | 'createdAt
 async function loadDocuments() {
   const docs = await api.getRecentDocuments();
   documentStore.setDocuments(docs);
+  renderDocuments();
 }
 
 // Listen for real-time notifications
@@ -167,4 +163,5 @@ documentStore.subscribe(() => {
 });
 
 // Initial load
+
 loadDocuments();

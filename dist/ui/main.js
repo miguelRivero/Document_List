@@ -15,13 +15,6 @@ import { documentStore } from './state/index.js';
 // State for view mode and sort
 let viewMode = 'list';
 let sortBy = 'none';
-function renderDocuments() {
-    let docs = documentStore.getDocuments();
-    if (sortBy !== 'none') {
-        docs = sortDocuments(docs, sortBy);
-    }
-    documentList.update(docs, viewMode);
-}
 // Get references to DOM containers
 const listContainer = document.getElementById('document-list');
 const notificationContainer = document.getElementById('notification-banner');
@@ -32,6 +25,13 @@ const ws = new DocumentWebSocket();
 const documentList = new DocumentList(listContainer);
 const notificationBanner = new NotificationBanner(notificationContainer);
 let addDocumentModal = null;
+function renderDocuments() {
+    let docs = documentStore.getDocuments();
+    if (sortBy !== 'none') {
+        docs = sortDocuments(docs, sortBy);
+    }
+    documentList.update(docs, viewMode);
+}
 document.addEventListener('click', (e) => {
     const target = e.target;
     if (target.classList.contains('add-document-btn')) {
@@ -97,11 +97,6 @@ if (sortSelect) {
         renderDocuments();
     });
 }
-let docs = documentStore.getDocuments();
-if (sortBy !== 'none') {
-    docs = sortDocuments(docs, sortBy);
-}
-documentList.update(docs, viewMode);
 function sortDocuments(docs, by) {
     return [...docs].sort((a, b) => {
         if (by === 'name') {
@@ -119,6 +114,7 @@ function loadDocuments() {
     return __awaiter(this, void 0, void 0, function* () {
         const docs = yield api.getRecentDocuments();
         documentStore.setDocuments(docs);
+        renderDocuments();
     });
 }
 // Listen for real-time notifications
