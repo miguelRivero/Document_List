@@ -1,40 +1,51 @@
-# Frontend Engineer challenge
+# Document List App
 
-We want you to build a web application that displays a list of documents that a customer has on their account.
+## Reasoning and Ideas
 
-A document has a name, a list of contributors, a version number, and a list of attachments.
-## Features
+This project is a modular, frameworkless TypeScript/Sass frontend for a document management app, designed with clean architecture and DDD principles.
 
-### Required features
+The user interface is intentionally kept basic and may not be pixel-perfect. The focus is on clean architecture, modularity, and maintainability rather than exact visual matching. The styles are designed for clarity and usability in the latest versions of Chrome.
 
-1. Display the most recent documents created, as a list view or as a grid view.
-2. Display a notification to the user (in real time), when a new document is being
-   created by other users.
-3. Allow the creation of a new document. New documents created by the user should be displayed in the list.
-4. Sort documents by name, version or creation date.
+State management is modular and testable, and the codebase is organized for clarity and maintainability.
 
-The documents’ data will be exposed in a simple web server that responds to requests with JSON responses over HTTP. The real time notifications will be emitted through a websocket connection. See more details about the server in the [server directory](server).
+### UX Note: Add Document Button & List Behavior
 
-### Optional features
+I understood that documents added via notifications should appear at the top of the list. This led me to design the UI with a fixed "Add document" button and a scrollable document list. This approach ensures that new documents are always visible immediately, and the add action is always accessible, making the interface more user friendly. I guess in a production environment, a pagination could be a good option.
 
-These features are optional, however if you completed the previous features and want to continue, here are some ideas:
+**Key ideas:**
 
-1. Offline support.
-2. Box notification.
-3. Display dates in a relative format (e.g. "1 day ago").
+- No framework: pure TypeScript, modular components, and clean separation of concerns.
+- Modern Sass: variables, partials, and encapsulated styles for each component.
+- Real-time updates: WebSocket integration for live document list updates.
+- Robust testing: Vitest for unit and integration tests, colocated with features.
+- Linting: ESLint with TypeScript support for code quality.
 
-<p align="center">
-  <img src="assets/sfe_1.png" height="auto" width="auto" alt="Screenshot 1">
-  <img src="assets/sfe_2.png" height="auto" width="auto" alt="Screenshot 2">
-</p>
+## How to Run the App
 
-## Tasks
+1. **Install dependencies:**
 
-Your task is to write a well-organized, robust and scalable application taking the following into account:
+```sh
+npm install
+```
 
-- Models the described problem with a suitable application structure that allow to add new features and to change requirements in a sustainable way
-- Implement the UI, based on the provided mockups (see attachments)
-- Implement different type of tests that ensure the correctness of the solution
-- The application must be supported in the latest two versions of Chrome
-- Implement the integrations with the sample server provided
-- Include a README.md explaining your reasonings, ideas, and how to execute your
+2. **Start the development server:**
+
+```sh
+npm run dev
+```
+
+The app will be available at [http://localhost:8081/](http://localhost:8081/)
+
+## How to Run the Tests
+
+1. **Run all tests:**
+
+```sh
+npm run test
+```
+
+This will execute all unit and integration tests using Vitest.
+
+---
+
+Feel free to explore the code and reach out for improvements or questions!
