@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { render, htmlToElement } from './domHelpers';
+import { render, htmlToElement } from './domHelpers.js';
 describe('domHelpers', () => {
     let container;
     beforeEach(() => {

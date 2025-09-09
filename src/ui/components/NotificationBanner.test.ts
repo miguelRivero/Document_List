@@ -1,4 +1,4 @@
-import { NotificationBanner } from './NotificationBanner';
+import { NotificationBanner } from './NotificationBanner.js';
 import { vi } from 'vitest';
 
 describe('NotificationBanner', () => {

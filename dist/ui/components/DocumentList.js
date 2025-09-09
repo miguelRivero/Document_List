@@ -1,8 +1,20 @@
+import { documentStore } from '../state/DocumentStore.js';
 /** Component to display a list of documents in either list or grid view.
  */
 export class DocumentList {
     constructor(listContainer) {
+        this.unsubscribe = null;
         this.listContainer = listContainer;
+        // Subscribe to store changes and update automatically
+        this.unsubscribe = documentStore.subscribe((docs) => {
+            this.update(docs);
+        });
+        // Initial render
+        this.update(documentStore.getDocuments());
+    }
+    destroy() {
+        if (this.unsubscribe)
+            this.unsubscribe();
     }
     /**
      *
@@ -23,7 +35,7 @@ export class DocumentList {
             <div class="document-item">
               <div class="document-name">${doc.title}<br><span>v${doc.version}</span></div>
               <div class="document-contributors">
-                ${doc.contributors.map(c => c.name).join('<br>') || 'No contributors'}
+                  ${doc.contributors.map((c) => c.name).join('<br>') || 'No contributors'}
               </div>
               <div class="document-attachments">
                 ${Array.isArray(doc.attachments) && doc.attachments.length > 0 ? doc.attachments.join('<br>') : 'No attachments'}
@@ -41,7 +53,7 @@ export class DocumentList {
             <div class="document-item">
               <div class="document-name">${doc.title}<br><span>v${doc.version}</span></div>
               <div class="document-contributors">
-                ${doc.contributors.map(c => c.name).join('<br>') || 'No contributors'}
+                  ${doc.contributors.map((c) => c.name).join('<br>') || 'No contributors'}
               </div>
               <div class="document-attachments">
                 ${Array.isArray(doc.attachments) && doc.attachments.length > 0 ? doc.attachments.join('<br>') : 'No attachments'}

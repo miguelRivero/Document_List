@@ -1,4 +1,4 @@
-import { sortSemver } from './sortSemver';
+import { sortSemver } from './sortSemver.js';
 describe('sortSemver', () => {
     it('returns 0 for equal versions', () => {
         expect(sortSemver('1.2.3', '1.2.3')).toBe(0);

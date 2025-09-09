@@ -1,11 +1,10 @@
-import { AddDocumentModal, DocumentList, NotificationBanner } from './components/index.js';
+import { AddDocumentModal, DocumentList, NotificationBanner } from './components/index.js'
 
 import { DocumentApi } from '../infrastructure/DocumentApi.js';
 import { DocumentWebSocket } from '../infrastructure/DocumentWebSocket.js';
 import { ListDocument } from '../domain/Document.js';
-import { sortSemver } from '../utils/sortSemver.js';
 import { documentStore } from './state/index.js';
-
+import { sortSemver } from '../utils/sortSemver.js';
 
 // State for view mode and sort
 let viewMode: 'list' | 'grid' = 'list';
@@ -25,7 +24,9 @@ const notificationBanner = new NotificationBanner(notificationContainer);
 
 let addDocumentModal: AddDocumentModal | null = null;
 
-
+/**
+ * Renders the document list based on current store state, view mode, and sort order.
+ */
 function renderDocuments() {
   let docs = documentStore.getDocuments();
   if (sortBy !== 'none') {
@@ -34,6 +35,9 @@ function renderDocuments() {
   documentList.update(docs, viewMode);
 }
 
+/**
+ * Handle Add Document button click to open modal.
+ */
 document.addEventListener('click', (e) => {
   const target = e.target as HTMLElement;
   if (target.classList.contains('add-document-btn')) {
@@ -58,6 +62,11 @@ document.addEventListener('click', (e) => {
   }
 });
 
+/**
+ * Creates a frontend document object from the form data.
+ * @param doc Document data from the form (without id, createdAt, attachments processed)
+ * @returns A ListDocument object with the processed data.
+ */
 function createFrontendDocument(doc: Omit<ListDocument, 'id' | 'createdAt' | 'attachments'> & { attachments?: string | string[] }): ListDocument {
   const genId = () => (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
     ? crypto.randomUUID()
@@ -84,12 +93,16 @@ function createFrontendDocument(doc: Omit<ListDocument, 'id' | 'createdAt' | 'at
   } as ListDocument;
 }
 
-// View controls
+/**
+ * Handle view mode toggle buttons and sort select
+ */
 const listViewBtn = document.getElementById('list-view-btn');
 const gridViewBtn = document.getElementById('grid-view-btn');
 const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
 
-
+/**
+ * Handle view mode toggle buttons
+ */
 if (listViewBtn && gridViewBtn) {
   listViewBtn.classList.add('active');
   gridViewBtn.classList.remove('active');
@@ -107,33 +120,44 @@ if (listViewBtn && gridViewBtn) {
     renderDocuments();
   });
 }
-
+/**
+ * Handle sort select change
+ */
 if (sortSelect) {
   sortSelect.addEventListener('change', () => {
     sortBy = (sortSelect.value || 'none') as 'none' | 'name' | 'version' | 'createdAt';
     renderDocuments();
   });
 }
-
+/**
+ * Sorts an array of documents based on the specified criteria.
+ * @param docs Array of documents to sort
+ * @param by Criteria to sort by (name, version, createdAt)
+ * @returns Sorted array of documents
+ */
 function sortDocuments(docs: ListDocument[], by: 'name' | 'version' | 'createdAt') {
   return [...docs].sort((a, b) => {
     if (by === 'name') {
       return a.title.localeCompare(b.title);
     }
-  if (by === 'version') return sortSemver(a.version, b.version);
+    if (by === 'version') return sortSemver(a.version, b.version);
     if (by === 'createdAt') return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     return 0;
   });
 }
 
-// Fetch and render documents
+/**
+ * Loads documents from the API and updates the store.
+ */
 async function loadDocuments() {
   const docs = await api.getRecentDocuments();
   documentStore.setDocuments(docs);
   renderDocuments();
 }
 
-// Listen for real-time notifications
+/**
+ * Handle incoming WebSocket messages for new documents.
+ */
 ws.connect(() => {
   api.getRecentDocuments().then(newDocs => {
     const existing = documentStore.getDocuments();
@@ -156,11 +180,6 @@ ws.connect(() => {
   });
 });
 
-// Subscribe UI to store changes
-documentStore.subscribe(() => {
-  renderDocuments();
-});
 
 // Initial load
-
 loadDocuments();

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { AddDocumentModal } from './AddDocumentModal';
+import { AddDocumentModal } from './AddDocumentModal.js';
 describe('AddDocumentModal', () => {
     let onSubmit;
     let modalInstance;

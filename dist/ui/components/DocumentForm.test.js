@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { DocumentForm } from './DocumentForm';
+import { DocumentForm } from './DocumentForm.js';
 describe('DocumentForm', () => {
     let container;
     let onSubmit;

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { documentStore } from './DocumentStore';
+import { documentStore } from './DocumentStore.js';
 import type { ListDocument } from '../../domain/Document';
 
 describe('DocumentStore', () => {

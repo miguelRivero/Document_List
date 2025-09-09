@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { DocumentForm } from './DocumentForm';
+import { DocumentForm } from './DocumentForm.js';
 import type { NewDocument } from '../../domain/Document';
 
 describe('DocumentForm', () => {

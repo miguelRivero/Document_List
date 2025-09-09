@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { AddDocumentModal, DocumentList, NotificationBanner } from './components/index.js';
 import { DocumentApi } from '../infrastructure/DocumentApi.js';
 import { DocumentWebSocket } from '../infrastructure/DocumentWebSocket.js';
-import { sortSemver } from '../utils/sortSemver.js';
 import { documentStore } from './state/index.js';
+import { sortSemver } from '../utils/sortSemver.js';
 // State for view mode and sort
 let viewMode = 'list';
 let sortBy = 'none';
@@ -25,6 +25,9 @@ const ws = new DocumentWebSocket();
 const documentList = new DocumentList(listContainer);
 const notificationBanner = new NotificationBanner(notificationContainer);
 let addDocumentModal = null;
+/**
+ * Renders the document list based on current store state, view mode, and sort order.
+ */
 function renderDocuments() {
     let docs = documentStore.getDocuments();
     if (sortBy !== 'none') {
@@ -32,6 +35,9 @@ function renderDocuments() {
     }
     documentList.update(docs, viewMode);
 }
+/**
+ * Handle Add Document button click to open modal.
+ */
 document.addEventListener('click', (e) => {
     const target = e.target;
     if (target.classList.contains('add-document-btn')) {
@@ -56,6 +62,11 @@ document.addEventListener('click', (e) => {
         addDocumentModal.open();
     }
 });
+/**
+ * Creates a frontend document object from the form data.
+ * @param doc Document data from the form (without id, createdAt, attachments processed)
+ * @returns A ListDocument object with the processed data.
+ */
 function createFrontendDocument(doc) {
     const genId = () => (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
         ? crypto.randomUUID()
@@ -71,10 +82,15 @@ function createFrontendDocument(doc) {
     return Object.assign(Object.assign({}, doc), { id: genId(), createdAt: new Date().toISOString(), contributors,
         attachments });
 }
-// View controls
+/**
+ * Handle view mode toggle buttons and sort select
+ */
 const listViewBtn = document.getElementById('list-view-btn');
 const gridViewBtn = document.getElementById('grid-view-btn');
 const sortSelect = document.getElementById('sort-select');
+/**
+ * Handle view mode toggle buttons
+ */
 if (listViewBtn && gridViewBtn) {
     listViewBtn.classList.add('active');
     gridViewBtn.classList.remove('active');
@@ -91,12 +107,21 @@ if (listViewBtn && gridViewBtn) {
         renderDocuments();
     });
 }
+/**
+ * Handle sort select change
+ */
 if (sortSelect) {
     sortSelect.addEventListener('change', () => {
         sortBy = (sortSelect.value || 'none');
         renderDocuments();
     });
 }
+/**
+ * Sorts an array of documents based on the specified criteria.
+ * @param docs Array of documents to sort
+ * @param by Criteria to sort by (name, version, createdAt)
+ * @returns Sorted array of documents
+ */
 function sortDocuments(docs, by) {
     return [...docs].sort((a, b) => {
         if (by === 'name') {
@@ -109,7 +134,9 @@ function sortDocuments(docs, by) {
         return 0;
     });
 }
-// Fetch and render documents
+/**
+ * Loads documents from the API and updates the store.
+ */
 function loadDocuments() {
     return __awaiter(this, void 0, void 0, function* () {
         const docs = yield api.getRecentDocuments();
@@ -117,7 +144,9 @@ function loadDocuments() {
         renderDocuments();
     });
 }
-// Listen for real-time notifications
+/**
+ * Handle incoming WebSocket messages for new documents.
+ */
 ws.connect(() => {
     api.getRecentDocuments().then(newDocs => {
         const existing = documentStore.getDocuments();
@@ -138,10 +167,6 @@ ws.connect(() => {
         console.log('[DocumentStore] Total documents:', merged.length);
         documentStore.setDocuments(merged);
     });
-});
-// Subscribe UI to store changes
-documentStore.subscribe(() => {
-    renderDocuments();
 });
 // Initial load
 loadDocuments();
