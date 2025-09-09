@@ -71,7 +71,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: #{variables.$breakpoint-mobile}) {
   #notification-banner {
     min-width: calc(80%);
   }

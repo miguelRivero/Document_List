@@ -32,8 +32,13 @@
     border-radius: variables.$radius;
     box-shadow: variables.$shadow;
     padding: 2.5rem 2.25rem 2rem 2.25rem;
-    min-width: 600px;
-    max-width: 700px;
+  min-width: 600px;
+  max-width: 700px;
+    @media (max-width: #{variables.$breakpoint-mobile}) {
+      min-width: 90vw;
+      max-width: 98vw;
+      padding: 1.2rem 0.5rem 1rem 0.5rem;
+    }
     position: relative;
     animation: modalIn 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
     display: flex;

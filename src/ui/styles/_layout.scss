@@ -45,7 +45,7 @@ body {
       font-size: variables.$font-size-base;
       color: variables.$color-primary;
       font-weight: variables.$font-weight-bold;
-  transition: border variables.$transition-time;
+      transition: border variables.$transition-time;
 
       &:focus {
         border: 0.12em solid variables.$color-primary;
@@ -60,4 +60,10 @@ h3,
 h4,
 h5 {
   font-weight: variables.$font-weight-bold;
+}
+
+@media (max-width: #{variables.$breakpoint-mobile}) {
+  .main-title {
+    text-align: center;
+  }
 }

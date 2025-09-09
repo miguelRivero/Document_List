@@ -11,7 +11,7 @@
     box-shadow: none;
     font-size: variables.$font-size-xl;
     font-weight: variables.$font-weight-bold;
-  transition: color variables.$transition-time;
+    transition: color variables.$transition-time;
     cursor: pointer;
     outline: none;
     display: flex;
@@ -24,5 +24,11 @@
     &:last-child {
       padding-left: 0.5em;
     }
+  }
+}
+
+@media (max-width: #{variables.$breakpoint-mobile}) {
+  #view-controls {
+    display: none;
   }
 }

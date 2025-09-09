@@ -62,6 +62,11 @@ h5 {
   font-weight: 700;
 }
 
+@media (max-width: 600px) {
+  .main-title {
+    text-align: center;
+  }
+}
 .document-list-headers {
   display: grid;
   grid-template-columns: 3fr 2fr 2fr;
@@ -176,6 +181,9 @@ h5 {
 }
 
 @media (max-width: 600px) {
+  .document-list-headers {
+    display: none;
+  }
   .document-list {
     display: grid;
     grid-template-columns: 1fr;
@@ -249,6 +257,15 @@ h5 {
   padding: 2.5rem 2.25rem 2rem 2.25rem;
   min-width: 600px;
   max-width: 700px;
+}
+@media (max-width: 600px) {
+  .modal-overlay .modal-content {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+  }
+}
+.modal-overlay .modal-content {
   position: relative;
   animation: modalIn 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
   display: flex;
@@ -328,6 +345,12 @@ h5 {
   grid-column: 1/-1;
 }
 
+@media (max-width: 600px) {
+  .modal-form-container form {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+}
 #notification-banner {
   position: absolute;
   top: 24px;
@@ -487,6 +510,12 @@ h5 {
 }
 #view-controls button:last-child {
   padding-left: 0.5em;
+}
+
+@media (max-width: 600px) {
+  #view-controls {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */
