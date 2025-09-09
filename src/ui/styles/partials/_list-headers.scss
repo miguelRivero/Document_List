@@ -10,3 +10,8 @@
     padding-left: 1rem;
   }
 }
+@media (max-width: #{variables.$breakpoint-mobile}) {
+  .document-list-headers {
+    display: none;
+  }
+}
