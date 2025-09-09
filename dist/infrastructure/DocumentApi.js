@@ -19,18 +19,4 @@ export class DocumentApi {
             return data.map(mapApiDocumentToListDocument);
         });
     }
-    getDocumentById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const response = yield fetch(`${this.baseUrl}/documents`);
-            const data = yield response.json();
-            const searchId = String(id).trim();
-            const ids = data.map((doc) => String(doc.ID).trim());
-            console.log('[DocumentApi] Buscando ID:', searchId, 'en', ids);
-            const found = data.find((doc) => String(doc.ID).trim() === searchId);
-            if (!found) {
-                console.warn('[DocumentApi] Documento no encontrado para ID:', searchId);
-            }
-            return found ? mapApiDocumentToListDocument(found) : undefined;
-        });
-    }
 }

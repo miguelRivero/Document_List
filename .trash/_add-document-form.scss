@@ -1,0 +1,73 @@
+@use './variables' as variables;
+
+.modal-form-container {
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 2.5rem;
+    width: 100%;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 1.08rem;
+      color: #222b3a;
+      font-weight: 600;
+      margin-bottom: 0.1em;
+      letter-spacing: 0.01em;
+    }
+
+    input[type='text'],
+    input[type='number'] {
+      margin-top: 0.4em;
+      padding: 0.7em 1em;
+      border: 1.5px solid #cfd8dc;
+      border-radius: 6px;
+      font-size: 1.08rem;
+      background: #fafbfc;
+      color: #263238;
+      transition: border-color 0.18s;
+      outline: none;
+    }
+    input:focus {
+      border-color: #3b82f6;
+      background: #fff;
+    }
+
+    .submit-btn {
+      grid-column: 1 / -1;
+      margin-top: 0.5em;
+      padding: 1.25em 0;
+      border: none;
+      border-radius: 0.75em;
+      background: variables.$tertiary;
+      color: #3b82f6;
+      font-size: 1.15rem;
+      font-weight: variables.$font-weight-bold;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      box-shadow: none;
+      transition:
+        background 0.15s,
+        color 0.15s;
+      outline: none;
+      text-align: center;
+      &:hover,
+      &:focus {
+        background: lighten(variables.$secondary, 3%);
+        color: darken(variables.$accent, 10%);
+      }
+      &:disabled {
+        color: #7b8a9a;
+        cursor: not-allowed;
+      }
+    }
+
+    .form-feedback {
+      min-height: 1.2em;
+      font-size: 1rem;
+      margin-top: 0.2em;
+      grid-column: 1 / -1;
+    }
+  }
+}

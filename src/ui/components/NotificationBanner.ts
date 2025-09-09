@@ -1,12 +1,16 @@
 // Simple notification banner for real-time document creation
 export class NotificationBanner {
   private container: HTMLElement;
-  private timeoutId: number | null = null;
+  private hideBannerTimeout: number | null = null;
 
   constructor(container: HTMLElement) {
     this.container = container;
   }
 
+  /**
+   * Show the notification banner with the specified document count.
+   * @param count - The number of new documents.
+   */
   show(count: number = 0) {
     this.container.innerHTML = `
       <div class="notification-banner notification-banner--enter">
@@ -18,36 +22,40 @@ export class NotificationBanner {
       </div>
     `;
     this.container.style.display = 'block';
-    // Forzar reflow para activar la transición
     const banner = this.container.querySelector('.notification-banner');
     if (banner) {
+      // Force a reflow to ensure the CSS transition is properly applied
       void (banner as HTMLElement).offsetWidth;
       banner.classList.add('notification-banner--visible');
     }
-    if (this.timeoutId) {
-      clearTimeout(this.timeoutId);
+    if (this.hideBannerTimeout) {
+      clearTimeout(this.hideBannerTimeout);
     }
-    this.timeoutId = window.setTimeout(() => {
+    this.hideBannerTimeout = window.setTimeout(() => {
       this.hideWithAnimation();
-      this.timeoutId = null;
+      this.hideBannerTimeout = null;
     }, 2000);
   }
 
-    hideWithAnimation() {
-      const banner = this.container.querySelector('.notification-banner');
-      if (banner) {
-        banner.classList.remove('notification-banner--visible');
-        banner.classList.add('notification-banner--leave');
-        banner.addEventListener('transitionend', () => {
-          this.clear();
-        }, { once: true });
-      } else {
+  /**
+   * Hide the notification banner with a CSS animation.
+   */
+  hideWithAnimation() {
+    const banner = this.container.querySelector('.notification-banner');
+    if (banner) {
+      banner.classList.remove('notification-banner--visible');
+      banner.classList.add('notification-banner--leave');
+      banner.addEventListener('transitionend', () => {
         this.clear();
-      }
+      }, { once: true });
+    } else {
+      this.clear();
     }
+  }
 
-    clear() {
-      this.container.innerHTML = '';
-      this.container.style.display = 'none';
+  /** Clear the notification banner immediately. */
+  clear() {
+    this.container.innerHTML = '';
+    this.container.style.display = 'none';
   }
 }

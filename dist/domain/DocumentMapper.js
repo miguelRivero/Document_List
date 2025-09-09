@@ -1,5 +1,4 @@
 export function mapApiDocumentToListDocument(apiDoc) {
-    // console.log("mapApiDocumentToListDocument : ", apiDoc)
     return {
         id: apiDoc.ID,
         title: apiDoc.Title,

@@ -1,7 +1,6 @@
 import type { ApiDocument, ListDocument } from './Document';
 
 export function mapApiDocumentToListDocument(apiDoc: ApiDocument): ListDocument {
-  // console.log("mapApiDocumentToListDocument : ", apiDoc)
   return {
     id: apiDoc.ID,
     title: apiDoc.Title,

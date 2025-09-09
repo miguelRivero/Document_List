@@ -1,0 +1,133 @@
+@use './variables' as variables;
+
+.document-list-headers {
+  display: grid;
+  grid-template-columns: 3fr 2fr 2fr;
+  align-items: end;
+  margin-bottom: 1rem;
+  padding: 0 2em;
+  color: variables.$text-light;
+}
+
+.document-list {
+  gap: 1.5em;
+  &.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    justify-items: start;
+    align-items: start;
+    padding: 0 1.5rem;
+    .document-item {
+      min-height: 18rem;
+      height: 100%;
+      max-width: 22rem;
+      min-width: 18rem;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 2px 8px 0 rgba(44, 62, 80, 0.07);
+    }
+  }
+  &:not(.grid) {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    .document-item {
+      display: grid;
+      grid-template-columns: 3fr 2fr 2fr;
+      align-items: start;
+      width: 100%;
+      padding: 1.5em 2em;
+    }
+  }
+}
+
+.document-name {
+  font-size: variables.$font-size-lg;
+  font-weight: variables.$font-weight-bold;
+  color: variables.$color-text;
+  text-align: left;
+  span {
+    font-size: variables.$font-size-sm;
+    font-weight: variables.$font-weight-regular;
+  }
+}
+.document-contributors,
+.document-attachments,
+.document-version {
+  text-align: left;
+  align-items: flex-start;
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.document-item {
+  background: variables.$white;
+  border-radius: 0.75em;
+  box-shadow: 0 0.125em 0.5em rgba(44, 62, 80, 0.04);
+  padding: 2em 1.5em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2em;
+  min-height: 5em;
+  .document-name {
+    font-size: 1.15rem;
+    font-weight: variables.$font-weight-bold;
+    color: variables.$color-text;
+    margin-bottom: 0.1rem;
+    span {
+      font-size: 1rem;
+      font-weight: variables.$font-weight-regular;
+      color: variables.$text-light;
+      display: block;
+      margin-top: 0.1rem;
+    }
+  }
+
+  .document-contributors,
+  .document-attachments {
+    color: variables.$text;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+.add-document-btn {
+  display: block;
+  width: 100%;
+  margin: 2.5rem 0 0 0;
+  padding: 1.25em 0;
+  font-size: 1.15rem;
+  font-weight: variables.$font-weight-bold;
+  color: variables.$accent;
+  background: variables.$tertiary;
+  border: none;
+  border-radius: 0.75em;
+  box-shadow: none;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  outline: none;
+  text-align: center;
+  &:hover,
+  &:focus {
+    background: lighten(variables.$secondary, 3%);
+    color: darken(variables.$accent, 10%);
+  }
+}
+
+.document-list.grid .add-document-btn {
+  grid-column: 1 / 2;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  align-self: stretch;
+  justify-self: start;
+}

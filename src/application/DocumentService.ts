@@ -1,4 +1,4 @@
-import type { ListDocument, NewDocument } from '../domain/Document';
+import type { ListDocument } from '../domain/Document';
 
 export interface DocumentService {
   getRecentDocuments(): Promise<ListDocument[]>;

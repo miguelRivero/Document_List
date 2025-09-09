@@ -18,8 +18,6 @@ export interface Contributor {
   id: string;
   name: string;
 }
-
-
 export interface ListDocument {
   id: string;
   title: string;

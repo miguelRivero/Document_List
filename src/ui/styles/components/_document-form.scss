@@ -1,0 +1,57 @@
+@use 'sass:color';
+@use '../variables' as variables;
+
+.modal-form-container {
+  form {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 2.5rem;
+
+    label {
+      font-size: variables.$font-size-base;
+      color: variables.$color-text;
+      font-weight: variables.$font-weight-bold;
+      margin-bottom: variables.$margin-xs;
+    }
+
+    input[type='text'],
+    input[type='number'] {
+      margin-top: 0.4em;
+      border: 0.5px solid variables.$color-primary;
+      font-size: variables.$font-size-base;
+      background: variables.$color-surface;
+      color: variables.$color-text;
+      transition: border-color 0.18s;
+    }
+    input:focus {
+      border-color: color.scale(variables.$color-primary, $lightness: 30%);
+    }
+
+    .submit-btn {
+      grid-column: 1 / -1;
+      // margin-top: variables.$margin-xs;
+      // color: variables.$color-primary;
+      font-size: variables.$font-size-xl;
+      font-weight: variables.$font-weight-bold;
+      cursor: pointer;
+      transition:
+        background 0.15s,
+        color 0.15s;
+      text-align: center;
+      // &:hover,
+      // &:focus {
+      //   background: color.adjust(variables.$color-primary, $lightness: 3%);
+      //   color: color.adjust(variables.$color-primary, $lightness: -10%);
+      // }
+      &:disabled {
+        color: variables.$color-text-secondary;
+        cursor: not-allowed;
+      }
+    }
+
+    .form-feedback {
+      font-size: variables.$font-size-base;
+      margin-top: variables.$margin-xs;
+      grid-column: 1 / -1;
+    }
+  }
+}

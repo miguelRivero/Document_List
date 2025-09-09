@@ -1,9 +1,13 @@
 // Simple notification banner for real-time document creation
 export class NotificationBanner {
     constructor(container) {
-        this.timeoutId = null;
+        this.hideBannerTimeout = null;
         this.container = container;
     }
+    /**
+     * Show the notification banner with the specified document count.
+     * @param count - The number of new documents.
+     */
     show(count = 0) {
         this.container.innerHTML = `
       <div class="notification-banner notification-banner--enter">
@@ -15,20 +19,23 @@ export class NotificationBanner {
       </div>
     `;
         this.container.style.display = 'block';
-        // Forzar reflow para activar la transición
         const banner = this.container.querySelector('.notification-banner');
         if (banner) {
+            // Force a reflow to ensure the CSS transition is properly applied
             void banner.offsetWidth;
             banner.classList.add('notification-banner--visible');
         }
-        if (this.timeoutId) {
-            clearTimeout(this.timeoutId);
+        if (this.hideBannerTimeout) {
+            clearTimeout(this.hideBannerTimeout);
         }
-        this.timeoutId = window.setTimeout(() => {
+        this.hideBannerTimeout = window.setTimeout(() => {
             this.hideWithAnimation();
-            this.timeoutId = null;
+            this.hideBannerTimeout = null;
         }, 2000);
     }
+    /**
+     * Hide the notification banner with a CSS animation.
+     */
     hideWithAnimation() {
         const banner = this.container.querySelector('.notification-banner');
         if (banner) {
@@ -42,6 +49,7 @@ export class NotificationBanner {
             this.clear();
         }
     }
+    /** Clear the notification banner immediately. */
     clear() {
         this.container.innerHTML = '';
         this.container.style.display = 'none';

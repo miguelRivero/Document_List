@@ -1,16 +1,29 @@
 {
+  "type": "module",
   "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
+    "@vitest/ui": "^3.2.4",
     "concurrently": "^8.2.2",
+    "eslint": "^9.35.0",
     "http-server": "^14.1.1",
+    "jsdom": "^26.1.0",
     "prettier": "^3.6.2",
     "sass": "^1.92.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5",
+    "vitest": "^3.2.4"
   },
   "scripts": {
-    "dev": "concurrently \"cd server && go run server.go\" \"npx tsc --watch\" \"npx sass --watch src/ui/styles/main.scss:dist/ui/styles/main.css\" \"npx http-server . -p 8081\"",
-    "serve": "npx http-server ."
+  "dev": "concurrently \"cd server && go run server.go\" \"npx tsc --watch\" \"npx sass --watch src/ui/styles/main.scss:dist/ui/styles/main.css\" \"npx http-server . -p 8081\" \"npm run lint\"",
+    "serve": "npx http-server .",
+    "lint": "eslint \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
     "normalize.css": "^8.0.1"
+  },
+  "volta": {
+    "node": "24.7.0"
   }
 }

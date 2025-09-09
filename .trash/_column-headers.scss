@@ -1,0 +1,15 @@
+@use './variables' as variables;
+
+.column-headers {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin: 0 0 0.5em 0;
+  padding: 0 2em;
+  color: variables.$text-light;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}

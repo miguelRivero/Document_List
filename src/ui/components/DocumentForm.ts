@@ -108,11 +108,11 @@ export class DocumentForm {
       await this.onSubmit(doc);
       this.setFeedback('Document created successfully!', 'success');
       this.form.reset();
-      // Accesibilidad: volver el foco al primer campo
       const firstInput = this.form.querySelector('input[name="title"]') as HTMLInputElement;
       if (firstInput) firstInput.focus();
     } catch (err: any) {
       this.setFeedback('Error creating document. Please try again.');
+      console.eror(err);
     } finally {
       this.setLoading(false);
     }

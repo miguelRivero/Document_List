@@ -1,0 +1,80 @@
+@use './variables' as variables;
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(33, 33, 33, 0.32);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal-content {
+    background: variables.$secondary;
+    border-radius: 12px;
+    box-shadow:
+      0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+      0px 24px 38px 3px rgba(0, 0, 0, 0.14),
+      0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+    padding: 2.5rem 2.25rem 2rem 2.25rem;
+    min-width: 600px;
+    max-width: 700px;
+    position: relative;
+    animation: modalIn 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+
+    .modal-close-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: none;
+      border: none;
+      font-size: 2.1rem;
+      color: #757575;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 2.2em;
+      height: 2.2em;
+      line-height: 2.2em;
+      text-align: center;
+      transition:
+        background 0.15s,
+        color 0.15s;
+      z-index: 1;
+
+      &:hover,
+      &:focus {
+        color: #111;
+      }
+    }
+
+    .modal-form-container {
+      margin-top: 2em;
+    }
+  }
+}
+
+@keyframes modalIn {
+  from {
+    transform: translateY(60px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}

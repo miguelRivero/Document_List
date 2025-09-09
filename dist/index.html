@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document List App</title>
+    <script type="module" crossorigin src="/assets/index-CvvPBBlu.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-WXbbxQUb.css">
+  </head>
+  <body>
+    <div id="notification-banner"></div>
+    <main class="main-content">
+      <h1 class="main-title">Documents</h1>
+      <div id="controls-bar">
+        <div id="sort-controls">
+          <label for="sort-select">Sort by:</label>
+          <select id="sort-select">
+            <option value="none" selected disabled hidden>Select one...</option>
+            <option value="name">Name</option>
+            <option value="version">Version</option>
+            <option value="createdAt">Creation Date</option>
+          </select>
+        </div>
+        <div id="view-controls">
+          <button id="list-view-btn" title="List view" aria-label="List view" class="active">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 22 22"
+              class="icon-svg"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect x="2" y="4" width="3" height="3" rx="0.5" />
+              <rect x="2" y="9.5" width="3" height="3" rx="0.5" />
+              <rect x="2" y="15" width="3" height="3" rx="0.5" />
+              <rect x="7.5" y="4" width="12.5" height="3" rx="0.5" />
+              <rect x="7.5" y="9.5" width="12.5" height="3" rx="0.5" />
+              <rect x="7.5" y="15" width="12.5" height="3" rx="0.5" />
+            </svg>
+          </button>
+          <button id="grid-view-btn" title="Grid view" aria-label="Grid view">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 22 22"
+              class="icon-svg"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect x="2" y="4" width="5" height="5" rx="0.5" />
+              <rect x="8.5" y="4" width="5" height="5" rx="0.5" />
+              <rect x="15" y="4" width="5" height="5" rx="0.5" />
+              <rect x="2" y="11" width="5" height="5" rx="0.5" />
+              <rect x="8.5" y="11" width="5" height="5" rx="0.5" />
+              <rect x="15" y="11" width="5" height="5" rx="0.5" />
+            </svg>
+          </button>
+          <style>
+            #view-controls .icon-svg rect {
+              fill: #888;
+              transition: fill 0.2s;
+            }
+            #view-controls button.active .icon-svg rect {
+              fill: #111;
+            }
+          </style>
+        </div>
+      </div>
+      <div id="document-list"></div>
+    </main>
+  </body>
+</html>
