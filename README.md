@@ -1,4 +1,4 @@
-# Document List App
+# Document List App Test
 
 ## Reasoning and Ideas
 
@@ -16,7 +16,7 @@ State management is modular and testable, and the codebase is organized for clar
 - Robust testing: Vitest for unit and integration tests, colocated with features.
 - Linting: ESLint with TypeScript support for code quality.
 
-## Document Display Features
+## Features
 
 ### 1. Document Synchronization Modes
 
@@ -75,9 +75,28 @@ The mode can be changed at runtime or set during application initialization in `
 
 Each document shows its creation date in a user-friendly relative format below the version number.
 
-### 3. UX Note: Add Document Button & List Behavior
+### 3. UX Design Decisions
 
-I understood that documents added via notifications should appear at the top of the list. This led me to design the UI with a fixed "Add document" button and a scrollable document list. This approach ensures that new documents are always visible immediately, and the add action is always accessible, making the interface more user friendly. I guess in a production environment, a pagination could be a good option.
+**Fixed Add Button & Scrollable List**
+
+Based on the requirement that new documents (from WebSocket notifications) should appear at the top of the list, I implemented a fixed "Add Document" button with a scrollable document container. This design ensures:
+
+- **Immediate visibility** of new documents without requiring user scroll
+- **Persistent accessibility** of the add document button regardless of list length
+
+## Possible Future Features
+
+### Offline Support
+
+Enable seamless offline functionality through a combination of Service Workers (for caching), IndexedDB (for local storage), and sync queues (for conflict resolution when reconnecting).
+
+### Enhanced Search & Filtering
+
+Implement full-text search, advanced filtering by date/contributor/attachments, and saved filter presets.
+
+### Pagination or Lazy Loading
+
+Handle large datasets efficiently by loading and displaying data progressively, improving performance and user experience with techniques like virtual scrolling or chunked API requests.
 
 ## How to Run the App
 
