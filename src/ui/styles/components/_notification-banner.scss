@@ -54,14 +54,18 @@
         right: -0.5em;
         background: variables.$color-primary;
         color: variables.$color-surface;
-        font-size: variables.$font-size-sm;
-        border-radius: 1em;
-        min-width: 1.5em;
-        height: 1.5em;
+        font-size: variables.$font-size-xs;
+        border-radius: 50%;
+        min-width: 1.2em;
+        height: 1.2em;
         box-shadow: 0 1px 4px rgba(44, 62, 80, 0.1);
         border: 1px solid variables.$color-surface;
         z-index: 1;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        padding: 0.3em;
       }
     }
     span {
