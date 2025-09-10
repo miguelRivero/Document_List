@@ -1,4 +1,3 @@
-
 import { AddDocumentModal, DocumentList, NotificationBanner } from './components/index.js';
 
 import { DocumentApi } from '../infrastructure/DocumentApi.js';
@@ -6,6 +5,10 @@ import { DocumentWebSocket } from '../infrastructure/DocumentWebSocket.js';
 import { ListDocument } from '../domain/Document.js';
 import { documentStore } from './state/index.js';
 import { sortSemver } from '../utils/sortSemver.js';
+
+// Configure merge mode at app startup
+documentStore.setMergeMode('merge'); // Keeps local documents (current behavior)
+//documentStore.setMergeMode('replace'); // Only show latest documents
 
 // State for view mode and sort
 let viewMode: 'list' | 'grid' = 'list';
@@ -18,7 +21,6 @@ const notificationContainer = document.getElementById('notification-banner')!;
 // Instantiate services
 const api = new DocumentApi('http://localhost:8080');
 const ws = new DocumentWebSocket();
-
 
 // Instantiate UI components
 const documentList = new DocumentList(listContainer);
@@ -64,14 +66,7 @@ document.addEventListener('click', (e) => {
       addDocumentModal = new AddDocumentModal(async (doc) => {
         try {
           const newDoc = createFrontendDocument(doc);
-          // Lógica igual que la notificación: mergear y mantener orden
-          const existing = documentStore.getDocuments();
-          const docMap = new Map<string, ListDocument>([
-            [newDoc.id, newDoc],
-            ...existing.map(d => [d.id, d] as [string, ListDocument])
-          ]);
-          const merged: ListDocument[] = Array.from(docMap.values());
-          documentStore.setDocuments(merged);
+          documentStore.addDocument(newDoc); // Use addDocument instead of manual merge
         } finally {
           addDocumentModal = null;
         }
@@ -176,29 +171,38 @@ async function loadDocuments() {
 
 /**
  * Handle incoming WebSocket messages for new documents.
+ * Trigger a fresh fetch from the API to get updated document list.
  */
-ws.connect(() => {
-  api.getRecentDocuments().then(newDocs => {
-    const existing = documentStore.getDocuments();
-    // Documents that exist only locally (not in API response)
-    const localOnly = existing.filter(doc => !newDocs.some(nd => nd.id === doc.id));
-    // Merge: API docs (newest first), then local-only docs
-    const merged = [...newDocs, ...localOnly];
-    // Show notification only for truly new from API
-    const existingIds = new Set(existing.map(doc => doc.id));
-    const trulyNew = newDocs.filter(doc => !existingIds.has(doc.id));
-    notificationBanner.show(trulyNew.length);
-    if (trulyNew.length > 0) {
-      console.log('[DocumentStore] New documents added:', trulyNew);
-    }
-    if (localOnly.length > 0) {
-      console.log('[DocumentStore] Local-only documents kept:', localOnly);
-    }
-    console.log('[DocumentStore] Total documents:', merged.length);
-    documentStore.setDocuments(merged);
-  });
-});
+ws.connect(async () => {
+  try {
+    // Get current documents count before fetching
+    const currentDocsCount = documentStore.getDocuments().length;
 
+    // Fetch fresh data from API
+    const docs = await api.getRecentDocuments();
+
+    // Handle based on merge mode
+    if (documentStore.getMergeMode() === 'merge') {
+      // Keep local documents, merge with API data (API docs first)
+      const currentDocs = documentStore.getDocuments();
+      const localDocs = currentDocs.filter(doc => !docs.some(apiDoc => apiDoc.id === doc.id));
+      documentStore.setDocuments([...docs, ...localDocs]);
+    } else {
+      // Replace mode - just use API data
+      documentStore.setDocuments(docs);
+    }
+
+    // Calculate how many new documents were added
+    const newDocsCount = documentStore.getDocuments().length - currentDocsCount;
+
+    // Show notification with the count of new documents
+    if (newDocsCount > 0) {
+      notificationBanner.show(newDocsCount);
+    }
+  } catch (error) {
+    console.error('Error fetching documents after WebSocket notification:', error);
+  }
+});
 
 // Initial load
 loadDocuments();

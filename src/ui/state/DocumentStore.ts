@@ -1,6 +1,7 @@
 import type { ListDocument } from '../../domain/Document';
 
 type Listener = (docs: ListDocument[]) => void;
+type MergeMode = 'merge' | 'replace';
 
 /**
  * DocumentStore manages a list of documents and notifies subscribers on changes.
@@ -10,6 +11,7 @@ type Listener = (docs: ListDocument[]) => void;
 class DocumentStore {
   private documents: ListDocument[] = [];
   private listeners: Listener[] = [];
+  private mergeMode: MergeMode = 'merge'; // Default to current behavior
 
   getDocuments() {
     return this.documents;
@@ -21,6 +23,17 @@ class DocumentStore {
   }
 
   /**
+   * Sets the merge mode for handling incoming documents
+   */
+  setMergeMode(mode: MergeMode) {
+    this.mergeMode = mode;
+  }
+
+  getMergeMode() {
+    return this.mergeMode;
+  }
+
+  /**
    * Adds a document to the store.
    * The new document is always added to the front of the list.
    * @param doc Document to add to the store. If a document with the same ID exists, it is replaced.
@@ -28,6 +41,21 @@ class DocumentStore {
   addDocument(doc: ListDocument) {
     this.documents = [doc, ...this.documents.filter(d => d.id !== doc.id)];
     this.listeners.forEach(fn => fn(this.documents));
+  }
+
+  /**
+   * Handles incoming documents based on merge mode
+   * - merge: keeps existing documents and adds new ones
+   * - replace: replaces all documents with incoming ones
+   */
+  handleIncomingDocument(doc: ListDocument) {
+    if (this.mergeMode === 'merge') {
+      this.addDocument(doc);
+    } else {
+      // In replace mode, we need to track which docs are from external sources
+      // For now, just add the document (you could enhance this further)
+      this.addDocument(doc);
+    }
   }
 
   /**
@@ -45,3 +73,4 @@ class DocumentStore {
 }
 
 export const documentStore = new DocumentStore();
+export type { MergeMode };

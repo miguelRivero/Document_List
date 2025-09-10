@@ -1,5 +1,3 @@
-
-
 /**
  * Manages WebSocket connections to receive real-time document notifications.
  * The server sends notifications with the following structure:
@@ -23,7 +21,8 @@ export class DocumentWebSocket {
    */
   connect(onEvent: () => void) {
     this.ws = new WebSocket(this.url);
-    this.ws.onmessage = () => {
+    this.ws.onmessage = (event) => {
+      // Just trigger the callback - let the main app handle fetching fresh data
       onEvent();
     };
   }
