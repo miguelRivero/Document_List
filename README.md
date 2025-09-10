@@ -8,11 +8,21 @@ The user interface is intentionally kept basic and may not be pixel-perfect. The
 
 State management is modular and testable, and the codebase is organized for clarity and maintainability.
 
-## Document Synchronization Modes
+**Key ideas:**
+
+- No framework: pure TypeScript, modular components, and clean separation of concerns.
+- Modern Sass: variables, partials, and encapsulated styles for each component.
+- Real-time updates: WebSocket integration for live document list updates.
+- Robust testing: Vitest for unit and integration tests, colocated with features.
+- Linting: ESLint with TypeScript support for code quality.
+
+## Document Display Features
+
+### 1. Document Synchronization Modes
 
 The application supports two synchronization modes for handling documents from different sources (user-created via UI and external via WebSocket):
 
-### Merge Mode (Default)
+#### Merge Mode (Default)
 
 ```typescript
 documentStore.setMergeMode('merge');
@@ -21,13 +31,13 @@ documentStore.setMergeMode('merge');
 **Behavior:**
 
 - Preserves locally created documents (added via the form)
-- Adds new documents received from WebSocket notifications
+- Adds new documents received from WebSocket notifications at the beginning of the list
 - Maintains existing documents from previous API calls
 - Document order: `[New API docs, User-created docs, Existing API docs]`
 
 **Use Case:** Ideal for collaborative environments where users want to see both their own work and updates from other sources without losing their local changes.
 
-### Replace Mode
+#### Replace Mode
 
 ```typescript
 documentStore.setMergeMode('replace');
@@ -41,28 +51,15 @@ documentStore.setMergeMode('replace');
 
 **Use Case:** Useful when you want to ensure the UI always reflects the exact server state, prioritizing data consistency over local changes.
 
-### Technical Implementation
+#### Technical Implementation
 
 The synchronization logic handles three types of documents:
 
-1. **New API Documents**: Fresh documents received from WebSocket notifications
+1. **New API Documents**: Fresh documents received after a fetch triggered by the WebSocket notifications
 2. **User-Created Documents**: Documents added locally via the form that haven't been synced to the server yet
 3. **Existing API Documents**: Documents that were previously fetched and are still present in the server response
 
-```typescript
-// Example of merge logic in WebSocket handler
-if (documentStore.getMergeMode() === 'merge') {
-  const userCreatedDocs = currentDocs.filter((doc) => !docs.some((apiDoc) => apiDoc.id === doc.id));
-
-  const existingApiDocs = currentDocs.filter((doc) => docs.some((apiDoc) => apiDoc.id === doc.id));
-
-  const newApiDocs = docs.filter((doc) => !existingApiIds.includes(doc.id));
-
-  documentStore.setDocuments([...newApiDocs, ...userCreatedDocs, ...existingApiDocs]);
-}
-```
-
-### Why This Pattern?
+#### Why This Pattern?
 
 **Problem Solved:**
 
@@ -74,17 +71,13 @@ if (documentStore.getMergeMode() === 'merge') {
 **Configuration:**
 The mode can be changed at runtime or set during application initialization in `main.ts`.
 
-### UX Note: Add Document Button & List Behavior
+### 2. Relative Date Display
+
+Each document shows its creation date in a user-friendly relative format below the version number.
+
+### 3. UX Note: Add Document Button & List Behavior
 
 I understood that documents added via notifications should appear at the top of the list. This led me to design the UI with a fixed "Add document" button and a scrollable document list. This approach ensures that new documents are always visible immediately, and the add action is always accessible, making the interface more user friendly. I guess in a production environment, a pagination could be a good option.
-
-**Key ideas:**
-
-- No framework: pure TypeScript, modular components, and clean separation of concerns.
-- Modern Sass: variables, partials, and encapsulated styles for each component.
-- Real-time updates: WebSocket integration for live document list updates.
-- Robust testing: Vitest for unit and integration tests, colocated with features.
-- Linting: ESLint with TypeScript support for code quality.
 
 ## How to Run the App
 
@@ -114,4 +107,4 @@ This will execute all unit and integration tests using Vitest.
 
 ---
 
-Feel free to explore the code and reach out for improvements or questions!
+Feel free to explore the code and reach out for comments or questions!

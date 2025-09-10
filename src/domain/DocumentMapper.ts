@@ -7,6 +7,6 @@ export function mapApiDocumentToListDocument(apiDoc: ApiDocument): ListDocument 
     contributors: apiDoc.Contributors.map(c => ({ id: c.ID, name: c.Name })),
     version: apiDoc.Version,
     attachments: apiDoc.Attachments,
-    createdAt: apiDoc.CreatedAt,
+    createdAt: apiDoc.CreatedAt || new Date().toISOString(), // Ensure createdAt is mapped
   };
 }

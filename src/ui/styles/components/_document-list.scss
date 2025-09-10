@@ -72,6 +72,13 @@
       display: block;
       margin-top: 0.1rem;
     }
+    .document-date {
+      font-size: variables.$font-size-sm;
+      font-weight: variables.$font-weight-regular;
+      color: variables.$color-text-secondary;
+      display: block;
+      margin-top: 0.1rem;
+    }
   }
   .document-contributors,
   .document-attachments,

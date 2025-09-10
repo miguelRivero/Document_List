@@ -24,7 +24,7 @@ export interface ListDocument {
   contributors: Contributor[];
   version: string;
   attachments: string[];
-  createdAt: string; // ISO date string
+  createdAt: string;
 }
 
 export type NewDocument = Omit<ListDocument, 'id' | 'createdAt'>;

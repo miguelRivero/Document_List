@@ -7,8 +7,8 @@ import { documentStore } from './state/index.js';
 import { sortSemver } from '../utils/sortSemver.js';
 
 // Configure merge mode at app startup
-documentStore.setMergeMode('merge'); // Keeps local documents (current behavior)
-//documentStore.setMergeMode('replace'); // Only show latest documents
+// documentStore.setMergeMode('merge'); // Keeps local documents (current behavior)
+documentStore.setMergeMode('replace'); // Only show latest documents
 
 // State for view mode and sort
 let viewMode: 'list' | 'grid' = 'list';

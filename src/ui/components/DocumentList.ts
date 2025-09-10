@@ -1,70 +1,49 @@
-import type { Contributor } from '../../domain/Document';
 import type { ListDocument } from '../../domain/Document';
+import { formatRelativeTime } from '../../utils/formatRelativeTime.js';
 
-/** Component to display a list of documents in either list or grid view.
- */
 export class DocumentList {
-  private listContainer: HTMLElement;
+  constructor(private container: HTMLElement) { }
 
-  private unsubscribe: (() => void) | null = null;
+  update(documents: ListDocument[], viewMode: 'list' | 'grid' = 'list') {
+    const documentsHtml = documents
+      .map((doc) => this.renderDocument(doc, viewMode))
+      .join('');
 
-  constructor(listContainer: HTMLElement) {
-    this.listContainer = listContainer;
-  }
-
-  destroy() {
-    if (this.unsubscribe) this.unsubscribe();
-  }
-
-  /**
-   * 
-   * @param documents Array of documents to display
-   * @param view 
-   */
-  update(documents: ListDocument[], view: 'list' | 'grid') {
-    let html = '';
-    if (view === 'list') {
-      html = `
-        <div class="document-list-headers">
-          <div class="header-name">Name</div>
-          <div class="header-contributors">Contributors</div>
-          <div class="header-attachments">Attachments</div>
-        </div>
-        <div class="document-list list scrollable-list">
-          ${documents.map(doc => `
-            <div class="document-item">
-              <div class="document-name">${doc.title}<br><span>v${doc.version}</span></div>
-              <div class="document-contributors">
-                  ${doc.contributors.map((c: Contributor) => c.name).join('<br>') || 'No contributors'}
-              </div>
-              <div class="document-attachments">
-                ${Array.isArray(doc.attachments) && doc.attachments.length > 0 ? doc.attachments.join('<br>') : 'No attachments'}
-              </div>
-            </div>
-          `).join('')}
-        </div>
-        <button class="add-document-btn sticky-add-btn" type="button">+ Add document</button>
-      `;
-    } else {
-      html = `
-        <div class="document-list grid scrollable-list">
-          ${documents.map(doc => `
-            <div class="document-item">
-              <div class="document-name">${doc.title}<br><span>v${doc.version}</span></div>
-              <div class="document-contributors">
-                  ${doc.contributors.map((c: Contributor) => c.name).join('<br>') || 'No contributors'}
-              </div>
-              <div class="document-attachments">
-                ${Array.isArray(doc.attachments) && doc.attachments.length > 0 ? doc.attachments.join('<br>') : 'No attachments'}
-              </div>
-            </div>
-          `).join('')}
-        </div>
+    if (viewMode === 'grid') {
+      this.container.innerHTML = `
+        <div class="document-list grid">${documentsHtml}</div>
         <div class="add-btn-row">
           <button class="add-document-btn sticky-add-btn" type="button">+ Add document</button>
         </div>
+        `;
+    } else {
+      this.container.innerHTML = `
+        <div class="document-list-headers">
+          <div class="header-name">Name</div>
+          <div>Contributors</div>
+          <div>Attachments</div>
+        </div>
+        <div class="document-list list scrollable-list">${documentsHtml}</div>
+        <button class="add-document-btn sticky-add-btn" type="button">+ Add document</button>
       `;
     }
-    if (this.listContainer) this.listContainer.innerHTML = html;
+  }
+
+  private renderDocument(doc: ListDocument, viewMode: 'list' | 'grid'): string {
+    const contributorNames = doc.contributors.map((c) => c.name).join(', ');
+    const attachmentList = doc.attachments.join(', ');
+    const relativeTime = formatRelativeTime(doc.createdAt);
+
+    return `
+      <div class="document-item">
+        <div class="document-name">
+          ${doc.title}
+          <span>v${doc.version}</span>
+          <small class="document-date">${relativeTime}</small>
+        </div>
+        <div class="document-contributors">${contributorNames}</div>
+        <div class="document-attachments">${attachmentList}</div>
+      </div>
+    `;
   }
 }
