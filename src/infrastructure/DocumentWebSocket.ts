@@ -21,7 +21,7 @@ export class DocumentWebSocket {
    */
   connect(onEvent: () => void) {
     this.ws = new WebSocket(this.url);
-    this.ws.onmessage = (event) => {
+    this.ws.onmessage = () => {
       // Just trigger the callback - let the main app handle fetching fresh data
       onEvent();
     };

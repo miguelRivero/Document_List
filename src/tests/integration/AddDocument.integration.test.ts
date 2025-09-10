@@ -34,7 +34,7 @@ describe('Integration: Add document - updates list and shows notification', () =
     const modal = new AddDocumentModal((doc) => {
       documentStore.addDocument({ ...doc, id: 'test-id', createdAt: new Date().toISOString() });
       // Show notification manually for test
-      banner.show('Document created successfully', 'success');
+      banner.show(1);
     });
     modal.open();
 
