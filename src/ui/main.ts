@@ -175,29 +175,43 @@ async function loadDocuments() {
  */
 ws.connect(async () => {
   try {
-    // Get current documents count before fetching
-    const currentDocsCount = documentStore.getDocuments().length;
+    // Small delay to avoid race condition with form submission
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Get current documents before fetching
+    const currentDocs = documentStore.getDocuments();
+    const currentDocsCount = currentDocs.length;
 
     // Fetch fresh data from API
     const docs = await api.getRecentDocuments();
 
     // Handle based on merge mode
     if (documentStore.getMergeMode() === 'merge') {
-      // Keep local documents, merge with API data (API docs first)
-      const currentDocs = documentStore.getDocuments();
-      const localDocs = currentDocs.filter(doc => !docs.some(apiDoc => apiDoc.id === doc.id));
-      documentStore.setDocuments([...docs, ...localDocs]);
+      // Keep user-created documents that aren't in the API response
+      const userCreatedDocs = currentDocs.filter(doc =>
+        !docs.some(apiDoc => apiDoc.id === doc.id)
+      );
+
+      // Existing documents that are also in the API response
+      const existingApiDocs = currentDocs.filter(doc =>
+        docs.some(apiDoc => apiDoc.id === doc.id)
+      );
+
+      // Only update if there are actually new API documents
+      const existingApiIds = existingApiDocs.map(doc => doc.id);
+      const newApiDocs = docs.filter(doc => !existingApiIds.includes(doc.id));
+
+      if (newApiDocs.length > 0) {
+        documentStore.setDocuments([...newApiDocs, ...userCreatedDocs, ...existingApiDocs]);
+        notificationBanner.show(newApiDocs.length);
+      }
     } else {
       // Replace mode - just use API data
       documentStore.setDocuments(docs);
-    }
-
-    // Calculate how many new documents were added
-    const newDocsCount = documentStore.getDocuments().length - currentDocsCount;
-
-    // Show notification with the count of new documents
-    if (newDocsCount > 0) {
-      notificationBanner.show(newDocsCount);
+      const newDocsCount = docs.length - (currentDocsCount - currentDocs.filter(doc => docs.some(apiDoc => apiDoc.id === doc.id)).length);
+      if (newDocsCount > 0) {
+        notificationBanner.show(newDocsCount);
+      }
     }
   } catch (error) {
     console.error('Error fetching documents after WebSocket notification:', error);
